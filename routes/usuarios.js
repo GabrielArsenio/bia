@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var usuarioSchema = require('../models/usuario');
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.send('usuarios');
 });
 
 module.exports = router;

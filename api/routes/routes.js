@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
@@ -24,7 +25,17 @@ router.get('/:resource/:id', function (req, res, next) {
 });
 
 router.post('/:resource', function (req, res, next) {
-    res.send('POST ' + req.params.resource);
+    var tempSchema = {};
+    var tempModel = {};
+    var tempDocument = {};
+
+    tempSchema[req.params.resource] = require('../models/' + req.params.resource);
+    tempModel[req.params.resource] = mongoose.model(req.params.resource, tempSchema[req.params.resource]);
+    tempDocument = new tempModel[req.params.resource](req.body);
+
+    tempDocument
+        .save()
+        .then((product) => res.location('/api/' + req.params.resource + '/' + product._id).sendStatus(201));
 });
 
 router.put('/:resource', function (req, res, next) {

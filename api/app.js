@@ -3,7 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 
-var usuariosRouter = require('./routes/usuarios');
+var apiRoutes = require('./routes/api');
 
 var app = express();
 
@@ -11,7 +11,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/usuarios', usuariosRouter);
+app.use('/api', apiRoutes);
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -21,7 +21,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  //res.render('error');
 });
 
 module.exports = app;

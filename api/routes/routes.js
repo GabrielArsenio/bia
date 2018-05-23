@@ -19,8 +19,8 @@ router.param('resource', function (req, res, next) {
 router.get('/:resource', function (req, res, next) {
     const resourceName = req.params.resource;
 
-    var schema = require('../models/' + resourceName);;
-    var collectionModel = mongoose.model(resourceName, schema);;
+    var schema = require('../models/' + resourceName);
+    var collectionModel = mongoose.model(resourceName, schema);
 
     collectionModel.find(null, function (err, doc) {
         res.send(doc);
@@ -30,8 +30,8 @@ router.get('/:resource', function (req, res, next) {
 router.get('/:resource/:id', function (req, res, next) {
     const resourceName = req.params.resource;
 
-    var schema = require('../models/' + resourceName);;
-    var collectionModel = mongoose.model(resourceName, schema);;
+    var schema = require('../models/' + resourceName);
+    var collectionModel = mongoose.model(resourceName, schema);
 
     collectionModel.findById(req.params.id, function (err, doc) {
         if (!doc) {
@@ -66,12 +66,36 @@ router.post('/:resource', function (req, res, next) {
     });
 });
 
-router.put('/:resource', function (req, res, next) {
-    res.send('PUT ' + req.params.resource);
+router.put('/:resource/:id', function (req, res, next) {
+    const resourceName = req.params.resource;
+
+    var schema = require('../models/' + resourceName);
+    var collectionModel = mongoose.model(resourceName, schema);
+
+    collectionModel.findByIdAndUpdate(req.params.id, req.body, function (err, doc) {
+        if (!doc) {
+            res.status(404).send();
+            return;
+        }
+
+        res.sendStatus(204);
+    });
 });
 
-router.delete('/:resource', function (req, res, next) {
-    res.send('DELETE ' + req.params.resource);
+router.delete('/:resource/:id', function (req, res, next) {
+    const resourceName = req.params.resource;
+
+    var schema = require('../models/' + resourceName);
+    var collectionModel = mongoose.model(resourceName, schema);
+
+    collectionModel.findByIdAndDelete(req.params.id, function (err, doc) {
+        if (!doc) {
+            res.status(404).send();
+            return;
+        }
+
+        res.sendStatus(204);
+    });
 });
 
 module.exports = router;

@@ -6,7 +6,7 @@ const routes = require('./routes/routes');
 
 var app = express();
 
-mongoose.connect('mongodb://192.168.99.100:27017/bia');
+mongoose.connect('mongodb://localhost:27017/bia');
 
 app.use(logger('dev'));
 app.use(express.json());

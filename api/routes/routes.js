@@ -17,25 +17,53 @@ router.param('resource', function (req, res, next) {
 });
 
 router.get('/:resource', function (req, res, next) {
-    res.send('GET ' + req.params.resource);
+    const resourceName = req.params.resource;
+
+    var schema = require('../models/' + resourceName);;
+    var collectionModel = mongoose.model(resourceName, schema);;
+
+    collectionModel.find(null, function (err, doc) {
+        res.send(doc);
+    });
 });
 
 router.get('/:resource/:id', function (req, res, next) {
-    res.send('GET ' + req.params.resource + ' ID: ' + req.params.id);
+    const resourceName = req.params.resource;
+
+    var schema = require('../models/' + resourceName);;
+    var collectionModel = mongoose.model(resourceName, schema);;
+
+    collectionModel.findById(req.params.id, function (err, doc) {
+        if (!doc) {
+            res.status(404).send();
+            return;
+        }
+
+        res.send(doc.toJSON());
+    });
 });
 
 router.post('/:resource', function (req, res, next) {
+    const resourceName = req.params.resource;
+
     var tempSchema = {};
     var tempModel = {};
     var tempDocument = {};
 
-    tempSchema[req.params.resource] = require('../models/' + req.params.resource);
-    tempModel[req.params.resource] = mongoose.model(req.params.resource, tempSchema[req.params.resource]);
-    tempDocument = new tempModel[req.params.resource](req.body);
+    tempSchema[resourceName] = require('../models/' + resourceName);
+    tempModel[resourceName] = mongoose.model(resourceName, tempSchema[resourceName]);
+    tempDocument = new tempModel[resourceName](req.body);
 
-    tempDocument
-        .save()
-        .then((product) => res.location('/api/' + req.params.resource + '/' + product._id).sendStatus(201));
+    tempDocument.validate(function (err) {
+        if (err) {
+            res.status(400).json(err);
+            return;
+        }
+
+        tempDocument
+            .save()
+            .then((product) => res.location('/api/' + resourceName + '/' + product._id).sendStatus(201));
+    });
 });
 
 router.put('/:resource', function (req, res, next) {

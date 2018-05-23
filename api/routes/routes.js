@@ -17,10 +17,7 @@ router.param('resource', function (req, res, next) {
 });
 
 router.get('/:resource', function (req, res, next) {
-    const resourceName = req.params.resource;
-
-    var schema = require('../models/' + resourceName);
-    var collectionModel = mongoose.model(resourceName, schema);
+    let collectionModel = createCollectionModel(req.params.resource);
 
     collectionModel.find(null, function (err, doc) {
         res.send(doc);
@@ -28,68 +25,51 @@ router.get('/:resource', function (req, res, next) {
 });
 
 router.get('/:resource/:id', function (req, res, next) {
-    const resourceName = req.params.resource;
-
-    var schema = require('../models/' + resourceName);
-    var collectionModel = mongoose.model(resourceName, schema);
+    let collectionModel = createCollectionModel(req.params.resource);
 
     collectionModel.findById(req.params.id, function (err, doc) {
-        if (!doc) {
-            res.status(404).send();
-            return;
+        if (doc) {
+            res.send(doc.toJSON());
+        } else {
+            res.sendStatus(404);
         }
-
-        res.send(doc.toJSON());
     });
 });
 
 router.post('/:resource', function (req, res, next) {
-    const resourceName = req.params.resource;
-
-    var schema = require('../models/' + resourceName);
-    var collectionModel = mongoose.model(resourceName, schema);
+    let collectionModel = createCollectionModel(req.params.resource);
     var document = new collectionModel(req.body);
 
     document.save({ validateBeforeSave: true }, function (err, doc) {
-        if (err) {
+        if (doc) {
+            res.location('/api/' + req.params.resource + '/' + doc._id).sendStatus(201);
+        } else {
             res.status(400).json(err);
-            return;
         }
-
-        res.location('/api/' + resourceName + '/' + doc._id).sendStatus(201);
     });
 });
 
 router.put('/:resource/:id', function (req, res, next) {
-    const resourceName = req.params.resource;
-
-    var schema = require('../models/' + resourceName);
-    var collectionModel = mongoose.model(resourceName, schema);
+    let collectionModel = createCollectionModel(req.params.resource);
 
     collectionModel.findByIdAndUpdate(req.params.id, req.body, function (err, doc) {
-        if (!doc) {
-            res.status(404).send();
-            return;
-        }
-
-        res.sendStatus(204);
+        res.sendStatus(doc ? 204 : 404);
     });
 });
 
 router.delete('/:resource/:id', function (req, res, next) {
-    const resourceName = req.params.resource;
+    let collectionModel = createCollectionModel(req.params.resource);
 
+    collectionModel.findByIdAndDelete(req.params.id, function (err, doc) {
+        res.sendStatus(doc ? 204 : 404);
+    });
+});
+
+function createCollectionModel(resourceName) {
     var schema = require('../models/' + resourceName);
     var collectionModel = mongoose.model(resourceName, schema);
 
-    collectionModel.findByIdAndDelete(req.params.id, function (err, doc) {
-        if (!doc) {
-            res.status(404).send();
-            return;
-        }
-
-        res.sendStatus(204);
-    });
-});
+    return collectionModel;
+}
 
 module.exports = router;

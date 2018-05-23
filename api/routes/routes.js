@@ -46,23 +46,17 @@ router.get('/:resource/:id', function (req, res, next) {
 router.post('/:resource', function (req, res, next) {
     const resourceName = req.params.resource;
 
-    var tempSchema = {};
-    var tempModel = {};
-    var tempDocument = {};
+    var schema = require('../models/' + resourceName);
+    var collectionModel = mongoose.model(resourceName, schema);
+    var document = new collectionModel(req.body);
 
-    tempSchema[resourceName] = require('../models/' + resourceName);
-    tempModel[resourceName] = mongoose.model(resourceName, tempSchema[resourceName]);
-    tempDocument = new tempModel[resourceName](req.body);
-
-    tempDocument.validate(function (err) {
+    document.save({ validateBeforeSave: true }, function (err, doc) {
         if (err) {
             res.status(400).json(err);
             return;
         }
 
-        tempDocument
-            .save()
-            .then((product) => res.location('/api/' + resourceName + '/' + product._id).sendStatus(201));
+        res.location('/api/' + resourceName + '/' + doc._id).sendStatus(201);
     });
 });
 

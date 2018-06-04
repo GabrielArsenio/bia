@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    import Service from '../../domain/Service'
+    import {Service} from '../../domain/Service'
 
     export default {
         data() {

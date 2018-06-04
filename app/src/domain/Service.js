@@ -1,4 +1,4 @@
-export default class Service {
+export class Service {
 
     constructor(resource) {
         this._resource = resource;

@@ -11,7 +11,7 @@ Vue.use(VueResource);
 Vue.use(Vuetify);
 
 if (process.env.NODE_ENV !== 'production') {
-    Vue.http.options.root = 'http://localhost:3000/api';
+    Vue.http.options.root = 'http://localhost:3000';
 }
 
 const router = new VueRouter({ routes });

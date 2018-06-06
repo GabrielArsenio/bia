@@ -67,7 +67,7 @@
             }
         },
         created() {
-            this.service = new Service(this.$resource('ameacas{/id}'));
+            this.service = new Service(this.$resource('api/ameacas{/id}'));
 
             this.service
                 .findAll()

@@ -24,3 +24,5 @@ new Vue({
     router,
     render: h => h(App)
 });
+
+console.log(process.env.NODE_ENV)

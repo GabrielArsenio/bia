@@ -16,11 +16,11 @@
                     <v-layout row wrap>
 
                         <v-flex xs3>
-                            <v-text-field placeholder="Código"></v-text-field>
+                            <v-text-field v-model="document._id" disabled label="Código"></v-text-field>
                         </v-flex>
 
                         <v-flex xs12>
-                            <v-text-field placeholder="Descrição"></v-text-field>
+                            <v-text-field v-model="document.descricao" label="Descrição"></v-text-field>
                         </v-flex>
                     </v-layout>
                 </v-container>
@@ -45,19 +45,24 @@
                 </td>
             </template>
         </v-data-table>
+
+        <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
+            Registro salvo com sucesso!
+            <v-btn flat color="pink" @click.native="alertSaved = false">Fechar</v-btn>
+        </v-snackbar>
     </div>
 </template>
 
 <script>
-    import {Service} from '../../domain/Service'
+    import { Service } from '../../domain/Service'
+    import Ameaca from '../../domain/Ameaca'
 
     export default {
         data() {
             return {
                 dialog: false,
-                ameaca: {
-
-                },
+                alertSaved: false,
+                document: new Ameaca(),
                 search: '',
                 headers: [
                     { text: 'Descrição', value: 'descricao' },
@@ -75,7 +80,15 @@
         },
         methods: {
             save() {
-                console.log('SAVE');
+                this.service
+                    .save(this.document)
+                    .then(() => {
+                        this.alertSaved = true;
+                        if (!this._id) {
+                            this.items.push(this.document)
+                        }
+                        this.document = new Ameaca();
+                    }, err => console.log(err))
             }
         }
     }

@@ -21,4 +21,12 @@ export class Service {
                 throw new Error('Não foi possível remover.');
             });
     }
+
+    save(document) {
+        if (document._id) {
+            return this._resource.update({ id: document._id }, document);
+        } else {
+            return this._resource.save(document);
+        }
+    }
 }

@@ -13,7 +13,7 @@ export class Service {
             });
     }
 
-    delete(id) {
+    remove(id) {
         return this._resource
             .delete({ id })
             .then(null, err => {

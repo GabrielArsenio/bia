@@ -26,8 +26,8 @@
                 </v-container>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn flat color="primary" @click="dialog = false">Cancelar</v-btn>
-                    <v-btn flat @click="dialog = false;save()">Salvar</v-btn>
+                    <v-btn flat @click="dialog = false">Cancelar</v-btn>
+                    <v-btn flat color="primary" @click="dialog = false;save()">Salvar</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -39,7 +39,7 @@
                     <v-btn icon class="mx-0" @click="editItem(props.item)">
                         <v-icon color="teal">edit</v-icon>
                     </v-btn>
-                    <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+                    <v-btn icon class="mx-0" @click="onRemove(props.item)">
                         <v-icon color="pink">delete</v-icon>
                     </v-btn>
                 </td>
@@ -50,18 +50,31 @@
             Registro salvo com sucesso!
             <v-btn flat color="pink" @click.native="alertSaved = false">Fechar</v-btn>
         </v-snackbar>
+
+        <v-snackbar :timeout="6000" :bottom="true" v-model="alertRemoved">
+            Registro removido com sucesso!
+            <v-btn flat color="pink" @click.native="alertRemoved = false">Fechar</v-btn>
+        </v-snackbar>
+
+        <dialog-confirm-remove :active="dialogConfirmRemove" @cancel="cancel()" @remove="remove()"></dialog-confirm-remove>
     </div>
 </template>
 
 <script>
     import { Service } from '../../domain/Service'
     import Ameaca from '../../domain/Ameaca'
+    import DialogConfirmRemove from '../shared/DialogConfirmRemove'
 
     export default {
+        components: {
+            'dialog-confirm-remove': DialogConfirmRemove
+        },
         data() {
             return {
                 dialog: false,
+                dialogConfirmRemove: false,
                 alertSaved: false,
+                alertRemoved: false,
                 document: new Ameaca(),
                 search: '',
                 headers: [
@@ -89,6 +102,27 @@
                         }
                         this.document = new Ameaca();
                     }, err => console.log(err))
+            },
+            onRemove(document) {
+                this.document = document;
+                this.dialogConfirmRemove = true;
+                console.log('onRemove>document', document)
+            },
+            cancel() {
+                this.document = new Ameaca();
+                this.dialogConfirmRemove = false;
+            },
+            remove() {
+                this.service
+                    .remove(this.document._id)
+                    .then(() => {
+                        this.alertRemoved = true;
+                        let indice = this.items.indexOf(this.document);
+                        this.items.splice(indice, 1);
+                        this.document = new Ameaca();
+                    }, err => console.log(err));
+
+                this.dialogConfirmRemove = false;
             }
         }
     }

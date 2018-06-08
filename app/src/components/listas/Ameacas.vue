@@ -36,7 +36,7 @@
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.descricao }}</td>
                 <td class="justify-center layout px-0">
-                    <v-btn icon class="mx-0" @click="editItem(props.item)">
+                    <v-btn icon class="mx-0" @click="onEdit(props.item)">
                         <v-icon color="teal">edit</v-icon>
                     </v-btn>
                     <v-btn icon class="mx-0" @click="onRemove(props.item)">
@@ -64,6 +64,7 @@
     import { Service } from '../../domain/Service'
     import Ameaca from '../../domain/Ameaca'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
+    import _ from 'lodash'
 
     export default {
         components: {
@@ -76,6 +77,7 @@
                 alertSaved: false,
                 alertRemoved: false,
                 document: new Ameaca(),
+                oldDocument: new Ameaca(),
                 search: '',
                 headers: [
                     { text: 'Descrição', value: 'descricao' },
@@ -97,7 +99,11 @@
                     .save(this.document)
                     .then(() => {
                         this.alertSaved = true;
-                        if (!this._id) {
+                        if (!this.document._id) {
+                            this.items.push(this.document)
+                        } else {
+                            let indice = this.items.indexOf(this.oldDocument);
+                            this.items.splice(indice, 1);
                             this.items.push(this.document)
                         }
                         this.document = new Ameaca();
@@ -107,6 +113,12 @@
                 this.document = document;
                 this.dialogConfirmRemove = true;
                 console.log('onRemove>document', document)
+            },
+            onEdit(document) {
+                this.document = _.clone(document)
+                this.oldDocument = document;
+                this.dialog = true;
+                console.log('onEdit>document', document)
             },
             cancel() {
                 this.document = new Ameaca();

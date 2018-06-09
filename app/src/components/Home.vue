@@ -14,7 +14,7 @@
 
                 <v-divider></v-divider>
 
-                <v-list-tile @click="cadastroProcessos = !cadastroProcessos">
+                <v-list-tile @click="" :to="{ path: '/processos' }">
                     <v-list-tile-action>
                         <v-icon>timeline</v-icon>
                     </v-list-tile-action>
@@ -32,7 +32,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile @click="cadastroNiveisCricitidade = !cadastroNiveisCricitidade">
+                <v-list-tile @click="" :to="{ path: '/niveis' }">
                     <v-list-tile-action>
                         <v-icon>sort</v-icon>
                     </v-list-tile-action>
@@ -41,7 +41,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile @click="cadastroIndicativosAcao = !cadastroIndicativosAcao">
+                <v-list-tile @click="" :to="{ path: '/acoes' }">
                     <v-list-tile-action>
                         <v-icon>transfer_within_a_station</v-icon>
                     </v-list-tile-action>

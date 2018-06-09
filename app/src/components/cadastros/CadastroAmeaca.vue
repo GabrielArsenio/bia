@@ -1,0 +1,60 @@
+<template>
+    <v-dialog v-model="document" max-width="500px">
+        <v-card>
+            <v-card-title class="grey lighten-4 py-4 title">
+                {{ tempDocument._id ? 'Editar' : 'Nova' }} ameaça
+            </v-card-title>
+            <v-container grid-list-sm class="pa-4">
+                <v-layout row wrap>
+                    <v-flex xs3>
+                        <v-text-field v-model="tempDocument._id" disabled label="Código"></v-text-field>
+                    </v-flex>
+
+                    <v-flex xs12>
+                        <v-text-field v-model="tempDocument.descricao" label="Descrição"></v-text-field>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn flat @click="cancel()">Cancelar</v-btn>
+                <v-btn flat color="primary" @click="save()">Salvar</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+</template>
+
+<script>
+    import { Service } from '../../domain/Service'
+    import Ameaca from '../../domain/Ameaca'
+
+    export default {
+        props: {
+            document: {
+                required: true
+            }
+        },
+        data() {
+            return {
+                tempDocument: {}
+            }
+        },
+        created() {
+            this.tempDocument = Object.assign({}, this.document)
+        },
+        methods: {
+            cancel() {
+                this.$emit('cancel')
+                this.$destroy()
+            },
+            save() {
+                new Service(this.$resource('api/ameacas{/id}'))
+                    .save(this.tempDocument)
+                    .then((res) => {
+                        this.$emit('save', res.body || this.tempDocument)
+                        this.$destroy()
+                    }, err => console.log(err))
+            }
+        }
+    }
+</script>

@@ -6,37 +6,13 @@
             <v-text-field v-model="search" append-icon="search" label="Pesquisar ameaças" single-line hide-details></v-text-field>
         </v-card-title>
 
-        <v-dialog v-model="dialog" max-width="500px">
-            <v-btn slot="activator" color="primary" dark class="mb-2">Novo</v-btn>
-            <v-card>
-                <v-card-title class="grey lighten-4 py-4 title">
-                    Nova ameaça
-                </v-card-title>
-                <v-container grid-list-sm class="pa-4">
-                    <v-layout row wrap>
-
-                        <v-flex xs3>
-                            <v-text-field v-model="document._id" disabled label="Código"></v-text-field>
-                        </v-flex>
-
-                        <v-flex xs12>
-                            <v-text-field v-model="document.descricao" label="Descrição"></v-text-field>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn flat @click="dialog = false">Cancelar</v-btn>
-                    <v-btn flat color="primary" @click="dialog = false;save()">Salvar</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+        <v-btn slot="activator" color="primary" dark class="mb-2" @click="create">Novo</v-btn>
 
         <v-data-table hide-actions :headers="headers" :items="items" :search="search">
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.descricao }}</td>
                 <td class="justify-center layout px-0">
-                    <v-btn icon class="mx-0" @click="onEdit(props.item)">
+                    <v-btn icon class="mx-0" @click="edit(props.item)">
                         <v-icon color="teal">edit</v-icon>
                     </v-btn>
                     <v-btn icon class="mx-0" @click="onRemove(props.item)">
@@ -46,9 +22,11 @@
             </template>
         </v-data-table>
 
+        <cadastro-ameaca v-if="document" :document="document" @cancel="onCancel()" @save="onSave"></cadastro-ameaca>
+
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
-            <v-btn flat color="pink" @click.native="alertSaved = false">Fechar</v-btn>
+            <v-btn flat color="white" @click.native="alertSaved = false">Fechar</v-btn>
         </v-snackbar>
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertRemoved">
@@ -64,11 +42,13 @@
     import { Service } from '../../domain/Service'
     import Ameaca from '../../domain/Ameaca'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
+    import CadastroAmeaca from '../cadastros/CadastroAmeaca'
     import _ from 'lodash'
 
     export default {
         components: {
-            'dialog-confirm-remove': DialogConfirmRemove
+            'dialog-confirm-remove': DialogConfirmRemove,
+            'cadastro-ameaca': CadastroAmeaca
         },
         data() {
             return {
@@ -76,7 +56,7 @@
                 dialogConfirmRemove: false,
                 alertSaved: false,
                 alertRemoved: false,
-                document: new Ameaca(),
+                document: null,
                 oldDocument: new Ameaca(),
                 search: '',
                 headers: [
@@ -94,35 +74,30 @@
                 .then(items => this.items = items);
         },
         methods: {
-            save() {
-                this.service
-                    .save(this.document)
-                    .then(() => {
-                        this.alertSaved = true;
-                        if (!this.document._id) {
-                            this.items.push(this.document)
-                        } else {
-                            let indice = this.items.indexOf(this.oldDocument);
-                            this.items.splice(indice, 1);
-                            this.items.push(this.document)
-                        }
-                        this.document = new Ameaca();
-                    }, err => console.log(err))
+            create() {
+                this.document = new Ameaca()
+            },
+            edit(document) {
+                this.document = document;
+            },
+            onCancel() {
+                this.document = null;
+            },
+            onSave(newDocument) {
+                this.alertSaved = true;
+                if (!this.document._id) {
+                    this.items.push(newDocument)
+                } else {
+                    let indice = this.items.indexOf(this.document);
+                    this.items.splice(indice, 1);
+                    this.items.push(newDocument)
+                }
+                this.document = null;
             },
             onRemove(document) {
                 this.document = document;
                 this.dialogConfirmRemove = true;
                 console.log('onRemove>document', document)
-            },
-            onEdit(document) {
-                this.document = _.clone(document)
-                this.oldDocument = document;
-                this.dialog = true;
-                console.log('onEdit>document', document)
-            },
-            cancel() {
-                this.document = new Ameaca();
-                this.dialogConfirmRemove = false;
             },
             remove() {
                 this.service

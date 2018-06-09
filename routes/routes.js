@@ -49,7 +49,10 @@ router.post('/:resource', function (req, res, next) {
 
     document.save({ validateBeforeSave: true }, function (err, doc) {
         if (doc) {
-            res.location('/api/' + req.params.resource + '/' + doc._id).sendStatus(201);
+            res
+                .location('/api/' + req.params.resource + '/' + doc._id)
+                .status(201)
+                .send(doc);
         } else {
             res.status(400).json(err);
         }

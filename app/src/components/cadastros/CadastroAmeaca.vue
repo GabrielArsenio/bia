@@ -39,20 +39,22 @@
                 tempDocument: {}
             }
         },
-        created() {
-            this.tempDocument = Object.assign({}, this.document)
+        watch: {
+            document: function (newVal, oldVal) {
+                if (typeof this.document === 'object') {
+                    this.tempDocument = Object.assign({}, this.document)
+                }
+            }
         },
         methods: {
             cancel() {
                 this.$emit('cancel')
-                this.$destroy()
             },
             save() {
                 new Service(this.$resource('api/ameacas{/id}'))
                     .save(this.tempDocument)
                     .then((res) => {
                         this.$emit('save', res.body || this.tempDocument)
-                        this.$destroy()
                     }, err => console.log(err))
             }
         }

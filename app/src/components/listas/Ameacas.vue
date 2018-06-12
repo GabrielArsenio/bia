@@ -15,15 +15,17 @@
                     <v-btn icon class="mx-0" @click="edit(props.item)">
                         <v-icon color="teal">edit</v-icon>
                     </v-btn>
-                    <v-btn icon class="mx-0" @click="onRemove(props.item)">
+                    <v-btn icon class="mx-0" @click="remove(props.item)">
                         <v-icon color="pink">delete</v-icon>
                     </v-btn>
                 </td>
             </template>
         </v-data-table>
 
-        <cadastro-ameaca v-if="document" :document="document" @cancel="onCancel()" @save="onSave"></cadastro-ameaca>
+        <cadastro-ameaca :document="document" @cancel="document = false" @save="onSave"></cadastro-ameaca>
 
+        <dialog-confirm-remove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></dialog-confirm-remove>
+        
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
             <v-btn flat color="white" @click.native="alertSaved = false">Fechar</v-btn>
@@ -33,8 +35,6 @@
             Registro removido com sucesso!
             <v-btn flat color="pink" @click.native="alertRemoved = false">Fechar</v-btn>
         </v-snackbar>
-
-        <dialog-confirm-remove :active="dialogConfirmRemove" @cancel="cancel()" @remove="remove()"></dialog-confirm-remove>
     </div>
 </template>
 
@@ -43,7 +43,6 @@
     import Ameaca from '../../domain/Ameaca'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
     import CadastroAmeaca from '../cadastros/CadastroAmeaca'
-    import _ from 'lodash'
 
     export default {
         components: {
@@ -52,12 +51,10 @@
         },
         data() {
             return {
-                dialog: false,
-                dialogConfirmRemove: false,
                 alertSaved: false,
                 alertRemoved: false,
                 document: null,
-                oldDocument: new Ameaca(),
+                documentRemoving: null,
                 search: '',
                 headers: [
                     { text: 'Descrição', value: 'descricao' },
@@ -75,41 +72,43 @@
         },
         methods: {
             create() {
+                if (this.document) {
+                    this.document = false
+                }
                 this.document = new Ameaca()
             },
             edit(document) {
-                this.document = document;
+                if (this.document) {
+                    this.document = false
+                }
+                this.document = document
             },
-            onCancel() {
-                this.document = null;
+            remove(document) {
+                if (this.documentRemoving) {
+                    this.documentRemoving = false
+                }
+                this.documentRemoving = document
             },
             onSave(newDocument) {
-                this.alertSaved = true;
+                this.alertSaved = true
                 if (!this.document._id) {
                     this.items.push(newDocument)
                 } else {
-                    let indice = this.items.indexOf(this.document);
-                    this.items.splice(indice, 1);
+                    let indice = this.items.indexOf(this.document)
+                    this.items.splice(indice, 1)
                     this.items.push(newDocument)
                 }
-                this.document = null;
+                this.document = null
             },
-            onRemove(document) {
-                this.document = document;
-                this.dialogConfirmRemove = true;
-                console.log('onRemove>document', document)
-            },
-            remove() {
+            onRemove() {
                 this.service
-                    .remove(this.document._id)
+                    .remove(this.documentRemoving._id)
                     .then(() => {
-                        this.alertRemoved = true;
-                        let indice = this.items.indexOf(this.document);
+                        let indice = this.items.indexOf(this.documentRemoving);
                         this.items.splice(indice, 1);
-                        this.document = new Ameaca();
+                        this.alertRemoved = true;
+                        this.documentRemoving = false;
                     }, err => console.log(err));
-
-                this.dialogConfirmRemove = false;
             }
         }
     }

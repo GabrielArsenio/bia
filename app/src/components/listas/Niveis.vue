@@ -6,57 +6,39 @@
             <v-text-field v-model="search" append-icon="search" label="Pesquisar ameaças" single-line hide-details></v-text-field>
         </v-card-title>
 
-        <v-dialog v-model="dialog" max-width="500px">
-            <v-btn slot="activator" color="primary" dark class="mb-2">Novo</v-btn>
-            <v-card>
-                <v-card-title class="grey lighten-4 py-4 title">
-                    Novo nível de criticidade
-                </v-card-title>
-                <v-container grid-list-sm class="pa-4">
-                    <v-layout row wrap>
-
-                        <v-flex xs3>
-                            <v-text-field v-model="document._id" disabled label="Código"></v-text-field>
-                        </v-flex>
-
-                        <v-flex xs12>
-                            <v-text-field v-model="document.descricao" label="Descrição"></v-text-field>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn flat @click="dialog = false">Cancelar</v-btn>
-                    <v-btn flat color="primary" @click="dialog = false;save()">Salvar</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-
         <v-data-table hide-actions :headers="headers" :items="items" :search="search">
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.descricao }}</td>
                 <td class="justify-center layout px-0">
-                    <v-btn icon class="mx-0" @click="onEdit(props.item)">
+                    <v-btn icon class="mx-0" @click="edit(props.item)">
                         <v-icon color="teal">edit</v-icon>
                     </v-btn>
-                    <v-btn icon class="mx-0" @click="onRemove(props.item)">
+                    <v-btn icon class="mx-0" @click="remove(props.item)">
                         <v-icon color="pink">delete</v-icon>
                     </v-btn>
                 </td>
             </template>
         </v-data-table>
 
+        <v-btn fab bottom right color="primary" dark fixed @click.stop="create">
+            <v-icon>
+                add
+            </v-icon>
+        </v-btn>
+
+        <cadastro-nivel :document="document" @cancel="document = false" @save="onSave"></cadastro-nivel>
+
+        <dialog-confirm-remove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></dialog-confirm-remove>
+
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
-            <v-btn flat color="pink" @click.native="alertSaved = false">Fechar</v-btn>
+            <v-btn flat color="white" @click.native="alertSaved = false">Fechar</v-btn>
         </v-snackbar>
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertRemoved">
             Registro removido com sucesso!
             <v-btn flat color="pink" @click.native="alertRemoved = false">Fechar</v-btn>
         </v-snackbar>
-
-        <dialog-confirm-remove :active="dialogConfirmRemove" @cancel="cancel()" @remove="remove()"></dialog-confirm-remove>
     </div>
 </template>
 
@@ -64,20 +46,19 @@
     import { Service } from '../../domain/Service'
     import Nivel from '../../domain/Nivel'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
-    import _ from 'lodash'
+    import CadastroNivel from '../cadastros/CadastroNivel'
 
     export default {
         components: {
-            'dialog-confirm-remove': DialogConfirmRemove
+            'dialog-confirm-remove': DialogConfirmRemove,
+            'cadastro-nivel': CadastroNivel
         },
         data() {
             return {
-                dialog: false,
-                dialogConfirmRemove: false,
                 alertSaved: false,
                 alertRemoved: false,
-                document: new Nivel(),
-                oldDocument: new Nivel(),
+                document: null,
+                documentRemoving: null,
                 search: '',
                 headers: [
                     { text: 'Descrição', value: 'descricao' },
@@ -94,47 +75,44 @@
                 .then(items => this.items = items);
         },
         methods: {
-            save() {
+            create() {
+                if (this.document) {
+                    this.document = false
+                }
+                this.document = new Nivel()
+            },
+            edit(document) {
+                if (this.document) {
+                    this.document = false
+                }
+                this.document = document
+            },
+            remove(document) {
+                if (this.documentRemoving) {
+                    this.documentRemoving = false
+                }
+                this.documentRemoving = document
+            },
+            onSave(newDocument) {
+                this.alertSaved = true
+                if (!this.document._id) {
+                    this.items.push(newDocument)
+                } else {
+                    let indice = this.items.indexOf(this.document)
+                    this.items.splice(indice, 1)
+                    this.items.push(newDocument)
+                }
+                this.document = null
+            },
+            onRemove() {
                 this.service
-                    .save(this.document)
+                    .remove(this.documentRemoving._id)
                     .then(() => {
-                        this.alertSaved = true;
-                        if (!this.document._id) {
-                            this.items.push(this.document)
-                        } else {
-                            let indice = this.items.indexOf(this.oldDocument);
-                            this.items.splice(indice, 1);
-                            this.items.push(this.document)
-                        }
-                        this.document = new Nivel();
-                    }, err => console.log(err))
-            },
-            onRemove(document) {
-                this.document = document;
-                this.dialogConfirmRemove = true;
-                console.log('onRemove>document', document)
-            },
-            onEdit(document) {
-                this.document = _.clone(document)
-                this.oldDocument = document;
-                this.dialog = true;
-                console.log('onEdit>document', document)
-            },
-            cancel() {
-                this.document = new Nivel();
-                this.dialogConfirmRemove = false;
-            },
-            remove() {
-                this.service
-                    .remove(this.document._id)
-                    .then(() => {
-                        this.alertRemoved = true;
-                        let indice = this.items.indexOf(this.document);
+                        let indice = this.items.indexOf(this.documentRemoving);
                         this.items.splice(indice, 1);
-                        this.document = new Nivel();
+                        this.alertRemoved = true;
+                        this.documentRemoving = false;
                     }, err => console.log(err));
-
-                this.dialogConfirmRemove = false;
             }
         }
     }

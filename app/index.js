@@ -1,10 +1,10 @@
-import Vue from 'vue/dist/vue.min';
-import VueRouter from 'vue-router/dist/vue-router.min';
-import VueResource from 'vue-resource/dist/vue-resource.min';
-import Vuetify from 'vuetify/dist/vuetify.min';
+import Vue from 'vue/dist/vue';
+import VueRouter from 'vue-router/dist/vue-router';
+import VueResource from 'vue-resource/dist/vue-resource';
+import Vuetify from 'vuetify/dist/vuetify';
 import App from './src/App.vue';
 import { routes } from './routes';
-import 'vuetify/dist/vuetify.min.css';
+import 'vuetify/dist/vuetify.css';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);

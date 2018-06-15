@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="document" max-width="500px">
+    <v-dialog v-model="isOpen" max-width="500px">
         <v-card>
             <v-card-title class="grey lighten-4 py-4 title">
                 {{ tempDocument._id ? 'Editar' : 'Novo' }} nível de criticidade
@@ -36,12 +36,17 @@
         },
         data() {
             return {
+                isOpen: false,
                 tempDocument: {}
             }
         },
         watch: {
             document: function (newVal, oldVal) {
+                if (!this.document) {
+                    this.isOpen = false;
+                }
                 if (typeof this.document === 'object') {
+                    this.isOpen = true
                     this.tempDocument = Object.assign({}, this.document)
                 }
             }

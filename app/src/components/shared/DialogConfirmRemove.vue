@@ -16,13 +16,12 @@
     export default {
         props: {
             active: {
-                type: Boolean,
                 required: true
             }
         },
         data() {
             return {
-                isOpen: this.active
+                isOpen: false
             }
         },
         methods: {
@@ -31,6 +30,11 @@
             },
             remove() {
                 this.$emit('remove')
+            }
+        },
+        watch: {
+            active: function (newVal, oldVal) {
+                this.isOpen = !!newVal
             }
         }
     }

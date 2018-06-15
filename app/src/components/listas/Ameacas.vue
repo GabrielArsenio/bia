@@ -102,7 +102,7 @@
                     this.items.splice(indice, 1)
                     this.items.push(newDocument)
                 }
-                this.document = null
+                this.document = false
             },
             onRemove() {
                 this.service

@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="active" max-width="225px">
+    <v-dialog v-model="isOpen" max-width="225px">
         <v-card>
             <v-card-title class="grey lighten-4 py-4 title">
                 Confirmar exclusão?
@@ -18,6 +18,11 @@
             active: {
                 type: Boolean,
                 required: true
+            }
+        },
+        data() {
+            return {
+                isOpen: this.active
             }
         },
         methods: {

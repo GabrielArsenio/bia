@@ -57,8 +57,8 @@
             return {
                 alertSaved: false,
                 alertRemoved: false,
-                document: null,
-                documentRemoving: null,
+                document: false,
+                documentRemoving: false,
                 search: '',
                 headers: [
                     { text: 'Descrição', value: 'descricao' },

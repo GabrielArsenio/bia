@@ -3,42 +3,8 @@
         <v-card-title>
             Processos
             <v-spacer></v-spacer>
-            <v-text-field v-model="search" append-icon="search" label="Pesquisar ameaças" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" append-icon="search" label="Pesquisar processos" single-line hide-details></v-text-field>
         </v-card-title>
-
-        <v-dialog v-model="dialog" max-width="500px">
-            <v-btn slot="activator" color="primary" dark class="mb-2">Novo</v-btn>
-            <v-card>
-                <v-card-title class="grey lighten-4 py-4 title">
-                    Novo processo
-                </v-card-title>
-                <v-container grid-list-sm class="pa-4">
-                    <v-layout row wrap>
-
-                        <v-flex xs3>
-                            <v-text-field v-model="document._id" disabled label="Código"></v-text-field>
-                        </v-flex>
-
-                        <v-flex xs12>
-                            <v-text-field v-model="document.descricao" label="Descrição"></v-text-field>
-                        </v-flex>
-
-                        <v-flex xs12>
-                            <v-select v-model="document.nivel" label="Nível" :items="niveis"></v-select>
-                        </v-flex>
-
-                        <v-flex xs12>
-                            <v-text-field v-model="document.tolerancia" label="Tolerância"></v-text-field>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn flat @click="dialog = false">Cancelar</v-btn>
-                    <v-btn flat color="primary" @click="dialog = false;save()">Salvar</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
 
         <v-data-table hide-actions :headers="headers" :items="items" :search="search">
             <template slot="items" slot-scope="props">
@@ -56,17 +22,25 @@
             </template>
         </v-data-table>
 
+        <v-btn fab bottom right color="primary" dark fixed @click.stop="create">
+            <v-icon>
+                add
+            </v-icon>
+        </v-btn>
+
+        <cadastro-processo :document="document" @cancel="document = false" @save="onSave"></cadastro-processo>
+
+        <dialog-confirm-remove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></dialog-confirm-remove>
+
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
-            <v-btn flat color="pink" @click.native="alertSaved = false">Fechar</v-btn>
+            <v-btn flat color="white" @click.native="alertSaved = false">Fechar</v-btn>
         </v-snackbar>
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertRemoved">
             Registro removido com sucesso!
             <v-btn flat color="pink" @click.native="alertRemoved = false">Fechar</v-btn>
         </v-snackbar>
-
-        <dialog-confirm-remove :active="dialogConfirmRemove" @cancel="cancel()" @remove="remove()"></dialog-confirm-remove>
     </div>
 </template>
 
@@ -74,33 +48,25 @@
     import { Service } from '../../domain/Service'
     import Processo from '../../domain/Processo'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
-    import _ from 'lodash'
+    import CadastroProcesso from '../cadastros/CadastroProcesso'
 
     export default {
         components: {
-            'dialog-confirm-remove': DialogConfirmRemove
+            'dialog-confirm-remove': DialogConfirmRemove,
+            'cadastro-processo': CadastroProcesso
         },
         data() {
             return {
-                dialog: false,
-                dialogConfirmRemove: false,
                 alertSaved: false,
                 alertRemoved: false,
-                document: new Processo(),
-                oldDocument: new Processo(),
+                document: null,
+                documentRemoving: null,
                 search: '',
                 headers: [
                     { text: 'Descrição', value: 'descricao' },
-                    { text: 'Nível', value: 'nivel' },
-                    { text: 'Tolerância', value: 'tolerancia' },
                     { text: '', value: 'descricao', sortable: false, align: 'right' }
                 ],
-                items: [],
-                niveis: [{
-                    text: 'Nível 1'
-                }, {
-                    text: 'Nível 2'
-                }]
+                items: []
             }
         },
         created() {
@@ -111,47 +77,44 @@
                 .then(items => this.items = items);
         },
         methods: {
-            save() {
+            create() {
+                if (this.document) {
+                    this.document = false
+                }
+                this.document = new Processo()
+            },
+            edit(document) {
+                if (this.document) {
+                    this.document = false
+                }
+                this.document = document
+            },
+            remove(document) {
+                if (this.documentRemoving) {
+                    this.documentRemoving = false
+                }
+                this.documentRemoving = document
+            },
+            onSave(newDocument) {
+                this.alertSaved = true
+                if (!this.document._id) {
+                    this.items.push(newDocument)
+                } else {
+                    let indice = this.items.indexOf(this.document)
+                    this.items.splice(indice, 1)
+                    this.items.push(newDocument)
+                }
+                this.document = null
+            },
+            onRemove() {
                 this.service
-                    .save(this.document)
+                    .remove(this.documentRemoving._id)
                     .then(() => {
-                        this.alertSaved = true;
-                        if (!this.document._id) {
-                            this.items.push(this.document)
-                        } else {
-                            let indice = this.items.indexOf(this.oldDocument);
-                            this.items.splice(indice, 1);
-                            this.items.push(this.document)
-                        }
-                        this.document = new Processo();
-                    }, err => console.log(err))
-            },
-            onRemove(document) {
-                this.document = document;
-                this.dialogConfirmRemove = true;
-                console.log('onRemove>document', document)
-            },
-            onEdit(document) {
-                this.document = _.clone(document)
-                this.oldDocument = document;
-                this.dialog = true;
-                console.log('onEdit>document', document)
-            },
-            cancel() {
-                this.document = new Processo();
-                this.dialogConfirmRemove = false;
-            },
-            remove() {
-                this.service
-                    .remove(this.document._id)
-                    .then(() => {
-                        this.alertRemoved = true;
-                        let indice = this.items.indexOf(this.document);
+                        let indice = this.items.indexOf(this.documentRemoving);
                         this.items.splice(indice, 1);
-                        this.document = new Processo();
+                        this.alertRemoved = true;
+                        this.documentRemoving = false;
                     }, err => console.log(err));
-
-                this.dialogConfirmRemove = false;
             }
         }
     }

@@ -3,13 +3,11 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-const MODELS_PATH = './models/';
-
 var resources = [];
 var schemas = [];
 var models = [];
 
-fs.readdirSync(MODELS_PATH)
+fs.readdirSync('./models/')
     .forEach(file => {
         let resourceName = file.replace('.js', '')
         let schema = require(`../models/${resourceName}`)
@@ -67,7 +65,7 @@ router.post('/:resource', function (req, res, next) {
     document.save({ validateBeforeSave: true }, function (err, doc) {
         if (doc) {
             res
-                .location('/api/' + req.params.resource + '/' + doc._id)
+                .location(`/api/${req.params.resource}/${doc._id}`)
                 .status(201)
                 .send(doc);
         } else {

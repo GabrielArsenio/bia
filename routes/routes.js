@@ -105,10 +105,9 @@ function getPopulateList(resourceName) {
 
     Object.keys(schema.obj).forEach(function (propName) {
         let prop = schema.obj[propName];
-        let refName = schema.obj[propName].ref;
 
-        if (typeof prop === 'object' && refName) {
-            populateList.push(refName)
+        if (typeof prop === 'object' && schema.obj[propName].ref) {
+            populateList.push(propName)
         }
     });
 

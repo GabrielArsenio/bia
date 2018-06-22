@@ -9,12 +9,13 @@
         <v-data-table hide-actions :headers="headers" :items="items" :search="search">
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.descricao }}</td>
+                <td>{{ props.item.nivel && props.item.nivel.descricao }}</td>
                 <td>{{ props.item.tolerancia }}</td>
                 <td class="text-xs-right">
-                    <v-btn icon class="mx-0" @click="onEdit(props.item)">
+                    <v-btn icon class="mx-0" @click="edit(props.item)">
                         <v-icon color="teal">edit</v-icon>
                     </v-btn>
-                    <v-btn icon class="mx-0" @click="onRemove(props.item)">
+                    <v-btn icon class="mx-0" @click="remove(props.item)">
                         <v-icon color="pink">delete</v-icon>
                     </v-btn>
                 </td>
@@ -58,11 +59,12 @@
             return {
                 alertSaved: false,
                 alertRemoved: false,
-                document: null,
-                documentRemoving: null,
+                document: false,
+                documentRemoving: false,
                 search: '',
                 headers: [
                     { text: 'Descrição', value: 'descricao' },
+                    { text: 'Nível', value: 'nivel.descricao' },
                     { text: 'Tolerância', value: 'tolerancia' },
                     { text: 'Ações', value: 'descricao', sortable: false, align: 'right' }
                 ],

@@ -9,9 +9,8 @@
         <v-data-table hide-actions :headers="headers" :items="items" :search="search">
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.descricao }}</td>
-                <td>{{ props.item.nivel }}</td>
                 <td>{{ props.item.tolerancia }}</td>
-                <td class="justify-center layout px-0">
+                <td class="text-xs-right">
                     <v-btn icon class="mx-0" @click="onEdit(props.item)">
                         <v-icon color="teal">edit</v-icon>
                     </v-btn>
@@ -64,7 +63,8 @@
                 search: '',
                 headers: [
                     { text: 'Descrição', value: 'descricao' },
-                    { text: '', value: 'descricao', sortable: false, align: 'right' }
+                    { text: 'Tolerância', value: 'tolerancia' },
+                    { text: 'Ações', value: 'descricao', sortable: false, align: 'right' }
                 ],
                 items: []
             }

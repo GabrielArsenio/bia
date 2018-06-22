@@ -3,44 +3,61 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-const modelsPath = './models/';
+const MODELS_PATH = './models/';
+
+var resources = [];
+var schemas = [];
 var models = [];
 
-fs.readdirSync(modelsPath)
-    .forEach(file => models.push(file.replace('.js', '')));
+fs.readdirSync(MODELS_PATH)
+    .forEach(file => {
+        let resourceName = file.replace('.js', '')
+        let schema = require(`../models/${resourceName}`)
+        let model = mongoose.model(resourceName, schema)
+
+        resources.push(resourceName);
+        schemas.push(schema);
+        models.push(model);
+    });
 
 router.param('resource', function (req, res, next) {
-    if (models.indexOf(req.params.resource) < 0) {
+    if (resources.indexOf(req.params.resource) < 0) {
         res.sendStatus(404);
     }
     next();
 });
 
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+});
 
 router.get('/:resource', function (req, res, next) {
     let collectionModel = createCollectionModel(req.params.resource);
 
-    collectionModel.find(null, function (err, doc) {
-        res.send(doc);
-    });
+    collectionModel
+        .find(null, function (err, doc) {
+            res.send(doc);
+        })
+        .populate(getPopulateList(req.params.resource))
+        .exec(function () { console.log(arguments) });
 });
 
 router.get('/:resource/:id', function (req, res, next) {
     let collectionModel = createCollectionModel(req.params.resource);
 
-    collectionModel.findById(req.params.id, function (err, doc) {
-        if (doc) {
-            res.send(doc.toJSON());
-        } else {
-            res.sendStatus(404);
-        }
-    });
+    collectionModel
+        .findById(req.params.id, function (err, doc) {
+            if (doc) {
+                res.send(doc.toJSON());
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .populate(getPopulateList(req.params.resource))
+        .exec(function () { console.log(arguments) });
 });
 
 router.post('/:resource', function (req, res, next) {
@@ -76,10 +93,27 @@ router.delete('/:resource/:id', function (req, res, next) {
 });
 
 function createCollectionModel(resourceName) {
-    var schema = require('../models/' + resourceName);
-    var collectionModel = mongoose.model(resourceName, schema);
-
+    let indexResource = resources.indexOf(resourceName);
+    let collectionModel = models[indexResource];
     return collectionModel;
+}
+
+function getPopulateList(resourceName) {
+    let indexResource = resources.indexOf(resourceName);
+    let schema = schemas[indexResource];
+    let populateList = [];
+
+    Object.keys(schema.obj).forEach(function (propName) {
+        let prop = schema.obj[propName];
+        let refName = schema.obj[propName].ref;
+
+        if (typeof prop === 'object' && refName) {
+            populateList.push(refName)
+        }
+    });
+
+    console.log('==== populateList', populateList);
+    return populateList
 }
 
 module.exports = router;

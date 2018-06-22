@@ -15,7 +15,14 @@
                     </v-flex>
 
                     <v-flex xs12>
-                        <v-select v-model="tempDocument.nivel" label="Nível" :items="niveis" item-text="descricao" autocomplete></v-select>
+                        <v-select 
+                            :items="niveis" 
+                            v-model="tempDocument.nivel"
+                            label="Nível" 
+                            item-text="descricao" 
+                            item-value="_id" 
+                            autocomplete
+                        ></v-select>
                     </v-flex>
 
                     <v-flex xs12>
@@ -57,6 +64,11 @@
                 if (typeof this.document === 'object') {
                     this.isOpen = true
                     this.tempDocument = Object.assign({}, this.document)
+
+                    if (this.tempDocument.nivel) {
+                        this.tempDocument.nivel = this.tempDocument.nivel._id
+                    }
+
                     this.getNiveis()
                 }
             }

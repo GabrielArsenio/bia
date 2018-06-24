@@ -10,6 +10,7 @@
     "prestart": "npm run build",
     "dev": "node ./bin/www | parcel watch app/index.html -d public",
     "frontend": "parcel app/index.html -d public",
+    "frontend-watch": "parcel watch app/index.html -d public",
     "backend": "node ./bin/www"
   },
   "dependencies": {

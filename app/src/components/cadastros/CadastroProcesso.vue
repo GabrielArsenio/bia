@@ -81,6 +81,8 @@
                 new Service(this.$resource('api/processos{/id}'))
                     .save(this.tempDocument)
                     .then((res) => {
+                        let selectedNivel = this.niveis.find(nivel => nivel._id === this.tempDocument.nivel);
+                        this.tempDocument.nivel = selectedNivel;
                         this.$emit('save', res.body || this.tempDocument)
                     }, err => console.log(err))
             },

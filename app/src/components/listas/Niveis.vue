@@ -3,8 +3,10 @@
         <v-card-title>
             Níveis de criticidade
             <v-spacer></v-spacer>
-            <v-text-field v-model="search" append-icon="search" label="Pesquisar ameaças" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" append-icon="search" label="Pesquisar níveis de criticidade" single-line hide-details></v-text-field>
         </v-card-title>
+
+        <v-btn slot="activator" color="primary" dark class="mb-2" @click.stop="create">Novo</v-btn>
 
         <v-data-table hide-actions :headers="headers" :items="items" :search="search">
             <template slot="items" slot-scope="props">
@@ -19,12 +21,6 @@
                 </td>
             </template>
         </v-data-table>
-
-        <v-btn fab bottom right color="primary" dark fixed @click.stop="create">
-            <v-icon>
-                add
-            </v-icon>
-        </v-btn>
 
         <cadastro-nivel :document="document" @cancel="document = false" @save="onSave"></cadastro-nivel>
 

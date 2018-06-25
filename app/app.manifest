@@ -1,0 +1,13 @@
+{
+    "name": "BIA - Business Impact Analysis",
+    "short_name": "BIA",
+    "start_url" : "./",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "./favicon-256.4d2a5cbc.png",
+            "sizes" : "256x256",
+            "type" : "image/png"
+        }
+    ]
+}

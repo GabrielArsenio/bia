@@ -7,7 +7,6 @@
   "scripts": {
     "start": "node ./bin/www",
     "build": "parcel build app/index.html -d public",
-    "prestart": "npm run build",
     "dev": "node ./bin/www | parcel watch app/index.html -d public",
     "frontend": "parcel app/index.html -d public",
     "frontend-watch": "parcel watch app/index.html -d public",

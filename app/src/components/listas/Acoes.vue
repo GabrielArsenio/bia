@@ -3,7 +3,7 @@
         <v-card-title>
             Indicativos de ação
             <v-spacer></v-spacer>
-            <v-text-field v-model="search" append-icon="search" label="Pesquisar ameaças" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" append-icon="search" label="Pesquisar ações" single-line hide-details></v-text-field>
         </v-card-title>
 
         <v-dialog v-model="dialog" max-width="500px">

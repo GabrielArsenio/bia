@@ -6,7 +6,7 @@
   "main": "./bin/www",
   "scripts": {
     "start": "node ./bin/www",
-    "build": "parcel build app/index.html -d public",
+    "build": "parcel build app/index.html -d public --no-cache",
     "dev": "node ./bin/www | parcel watch app/index.html -d public",
     "frontend": "parcel app/index.html -d public",
     "frontend-watch": "parcel watch app/index.html -d public",

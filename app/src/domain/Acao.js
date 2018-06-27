@@ -1,9 +1,10 @@
-export default class Processo {
+export default class Acao {
 
-    constructor(_id, descricao = '', nivel, tolerancia) {
+    constructor(_id, sequencia = 0, processo, ameaca, procedimento = '') {
         this._id = _id;
-        this.descricao = descricao;
-        this.nivel = nivel;
-        this.tolerancia = tolerancia;
+        this.sequencia = sequencia;
+        this.processo = processo;
+        this.ameaca = ameaca;
+        this.procedimento = procedimento;
     }
 }

@@ -50,6 +50,15 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
+                <v-list-tile @click="" :to="{ path: '/eventos' }">
+                    <v-list-tile-action>
+                        <v-icon>event_note</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Eventos</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+
                 <v-divider></v-divider>
 
                 <v-list-tile @click="">

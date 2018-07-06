@@ -41,12 +41,21 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
+                <v-list-tile @click="" :to="{ path: '/usuarios' }">
+                    <v-list-tile-action>
+                        <v-icon>person</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Cadastro de usuários</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+
                 <v-list-tile @click="" :to="{ path: '/acoes' }">
                     <v-list-tile-action>
                         <v-icon>transfer_within_a_station</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>Cadastro de indicativos de ação</v-list-tile-title>
+                        <v-list-tile-title>Indicativos de ação</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 

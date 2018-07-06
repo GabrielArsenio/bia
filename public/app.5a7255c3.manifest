@@ -5,7 +5,7 @@
     "display": "standalone",
     "icons": [
         {
-            "src": "./favicon-256.4d2a5cbc.png",
+            "src": "./favicon-256.dcb5e02f.png",
             "sizes" : "256x256",
             "type" : "image/png"
         }

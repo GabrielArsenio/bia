@@ -3,7 +3,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://192.168.99.100:27017';
 const MONGO_DBNAME = process.env.MONGO_DBNAME || 'bia';
 const MONGO_USER = process.env.MONGO_USER || '';
 const MONGO_PASS = process.env.MONGO_PASS || '';

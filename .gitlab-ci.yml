@@ -4,6 +4,7 @@ cache:
   paths:
   - node_modules/
 
-build:
+push_github:
   script:
-   - git remote add github https://github.com/GabrielArsenio/bia.git
+   - git remote add github $$GITHUB_URI
+   - git push github master

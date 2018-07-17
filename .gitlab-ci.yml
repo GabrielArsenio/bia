@@ -6,5 +6,4 @@ cache:
 
 build:
   script:
-   - npm install
-   - npm run build
+   - git remote add github https://github.com/GabrielArsenio/bia.git

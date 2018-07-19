@@ -1,22 +1,13 @@
+console.log('========================= BIA =========================')
+
 const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://192.168.99.100:27017';
-const MONGO_DBNAME = process.env.MONGO_DBNAME || 'bia';
-const MONGO_USER = process.env.MONGO_USER || '';
-const MONGO_PASS = process.env.MONGO_PASS || '';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/bia';
 
-const MONGO_OPTIONS = {
-    dbName: MONGO_DBNAME,
-    user: MONGO_USER,
-    pass: MONGO_PASS,
-    auth: process.env.MONGO_DBNAME ? { authdb: MONGO_DBNAME } : null
-};
-
-console.log('MONGO_URI: ', MONGO_URI);
-console.log('MONGO_OPTIONS: ', MONGO_OPTIONS);
+console.log('MONGODB_URI: ', MONGODB_URI);
 
 var app = express();
 
@@ -27,10 +18,8 @@ app.use(express.static('public'));
 
 app.use('/api', routes);
 
-mongoose.connect(MONGO_URI, MONGO_OPTIONS);
-
+mongoose.connect(MONGODB_URI);
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-
 mongoose.connection.once('open', function () {
     console.log('Conectado ao mongoDB!');
 });

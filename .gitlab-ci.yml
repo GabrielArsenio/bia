@@ -1,0 +1,10 @@
+image: node:8.11.1
+
+cache:
+  paths:
+  - node_modules/
+
+push_github:
+  script:
+   - git remote add github $$GITHUB_URI
+   - git push github master

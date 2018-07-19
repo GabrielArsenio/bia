@@ -33,9 +33,9 @@ router.use(function (req, res, next) {
 });
 
 router.get('/:resource', function (req, res, next) {
-    let collectionModel = createCollectionModel(req.params.resource);
+    let model = createModel(req.params.resource);
 
-    collectionModel
+    model
         .find(null, function (err, doc) {
             res.send(doc);
         })
@@ -44,9 +44,9 @@ router.get('/:resource', function (req, res, next) {
 });
 
 router.get('/:resource/:id', function (req, res, next) {
-    let collectionModel = createCollectionModel(req.params.resource);
+    let model = createModel(req.params.resource);
 
-    collectionModel
+    model
         .findById(req.params.id, function (err, doc) {
             if (doc) {
                 res.send(doc.toJSON());
@@ -59,8 +59,8 @@ router.get('/:resource/:id', function (req, res, next) {
 });
 
 router.post('/:resource', function (req, res, next) {
-    let collectionModel = createCollectionModel(req.params.resource);
-    var document = new collectionModel(req.body);
+    let model = createModel(req.params.resource);
+    var document = new model(req.body);
 
     document.save({ validateBeforeSave: true }, function (err, doc) {
         if (doc) {
@@ -75,25 +75,25 @@ router.post('/:resource', function (req, res, next) {
 });
 
 router.put('/:resource/:id', function (req, res, next) {
-    let collectionModel = createCollectionModel(req.params.resource);
+    let model = createModel(req.params.resource);
 
-    collectionModel.findByIdAndUpdate(req.params.id, req.body, function (err, doc) {
+    model.findByIdAndUpdate(req.params.id, req.body, function (err, doc) {
         res.sendStatus(doc ? 204 : 404);
     });
 });
 
 router.delete('/:resource/:id', function (req, res, next) {
-    let collectionModel = createCollectionModel(req.params.resource);
+    let model = createModel(req.params.resource);
 
-    collectionModel.findByIdAndDelete(req.params.id, function (err, doc) {
+    model.findByIdAndDelete(req.params.id, function (err, doc) {
         res.sendStatus(doc ? 204 : 404);
     });
 });
 
-function createCollectionModel(resourceName) {
+function createModel(resourceName) {
     let indexResource = resources.indexOf(resourceName);
-    let collectionModel = models[indexResource];
-    return collectionModel;
+    let model = models[indexResource];
+    return model;
 }
 
 function getPopulateList(resourceName) {

@@ -15,15 +15,24 @@ router.use(function (req, res, next) {
 router.post('/', function (req, res, next) {
     usuarioModel.findOne(req.body, function (err, doc) {
         if (!doc) {
-            res.sendStatus(404);
+            res.sendStatus(401);
             return;
         }
 
-        const token = jwt.sign({ _id: doc.id }, 'senha', {
-            expiresIn: 300 // expires in 5min
-        });
+        const token = jwt.sign(doc.toObject(), process.env.JWT_SECRET, { expiresIn: 300 }); // Seconds
 
         res.set('X-Access-Token', token).sendStatus(204);
+    });
+});
+
+router.get('/:token', function (req, res, next) {
+    jwt.verify(req.params.token, process.env.JWT_SECRET, function (err, decoded) {
+        if (err) {
+            res.status(403).send(err);
+            return;
+        }
+
+        res.send(decoded);
     });
 });
 

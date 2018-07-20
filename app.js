@@ -8,6 +8,7 @@ const auth = require('./routes/auth');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/bia';
 
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'secret';
 console.log('MONGODB_URI: ', MONGODB_URI);
 
 var app = express();

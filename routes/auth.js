@@ -32,7 +32,16 @@ router.get('/:token', function (req, res, next) {
             return;
         }
 
-        res.send(decoded);
+        usuarioModel.findById(decoded._id, function (err, doc) {
+            if (!doc) {
+                res.sendStatus(404);
+                return;
+            }
+
+            const token = jwt.sign(doc.toObject(), process.env.JWT_SECRET, { expiresIn: 300 });
+
+            res.set('X-Access-Token', token).send(decoded);
+        });
     });
 });
 

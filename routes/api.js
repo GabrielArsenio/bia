@@ -71,19 +71,33 @@ router.get('/:resource/:id', function (req, res, next) {
 });
 
 router.post('/:resource', function (req, res, next) {
-    let model = createModel(req.params.resource);
-    var document = new model(req.body);
+    const model = createModel(req.params.resource);
+    const documents = [].concat(req.body)
 
-    document.save({ validateBeforeSave: true }, function (err, doc) {
-        if (doc) {
-            res
-                .location(`/api/${req.params.resource}/${doc._id}`)
-                .status(201)
-                .send(doc);
-        } else {
+    new Promise(
+        (resolve, reject) => {
+            for (const doc of documents) {
+                const err = new model(doc).validateSync()
+                if (err) {
+                    reject(err);
+                    return;
+                }
+            }
+
+            resolve();
+        })
+        .then(() => {
+            model.create(req.body, function (err, docs) {
+                if (docs) {
+                    res.status(201).send(docs);
+                } else {
+                    res.status(400).json(err);
+                }
+            });
+        })
+        .catch((err) => {
             res.status(400).json(err);
-        }
-    });
+        });
 });
 
 router.put('/:resource/:id', function (req, res, next) {

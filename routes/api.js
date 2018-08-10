@@ -27,15 +27,15 @@ router.param('resource', function (req, res, next) {
 });
 
 router.use(
-    function (req, res, next) {
-        jwt.verify(req.headers['x-access-token'], process.env.JWT_SECRET, function (err, decoded) {
-            if (err) {
-                res.status(401).send(err);
-                return;
-            }
-            next();
-        });
-    },
+    // function (req, res, next) {
+    //     jwt.verify(req.headers['x-access-token'], process.env.JWT_SECRET, function (err, decoded) {
+    //         if (err) {
+    //             res.status(401).send(err);
+    //             return;
+    //         }
+    //         next();
+    //     });
+    // },
     function (req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");

@@ -19,6 +19,7 @@
 
 <script>
     export default {
+        name: 'Eventos',
         data() {
             return {
                 stepper: 1

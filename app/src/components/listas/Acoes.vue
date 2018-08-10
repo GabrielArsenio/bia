@@ -47,6 +47,7 @@
     import CadastroAcao from '../cadastros/CadastroAcao'
 
     export default {
+        name: 'Acoes',
         components: {
             'dialog-confirm-remove': DialogConfirmRemove,
             'cadastro-acao': CadastroAcao

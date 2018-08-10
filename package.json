@@ -17,6 +17,7 @@
     "express": "~4.16.0",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
+    "material-design-icons-iconfont": "^3.0.3",
     "mongoose": "^5.1.6",
     "morgan": "~1.9.0",
     "vue": "^2.5.16",

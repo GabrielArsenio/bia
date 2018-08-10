@@ -1,9 +1,9 @@
 <template>
-    <v-app id="inspire">
+    <v-app>
         <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.mdAndUp" app v-model="drawer">
             <v-list dense>
 
-                <v-list-tile @click="" :to="{ path: '/' }">
+                <v-list-tile :to="{ path: '/' }">
                     <v-list-tile-action>
                         <v-icon>home</v-icon>
                     </v-list-tile-action>
@@ -14,7 +14,7 @@
 
                 <v-divider></v-divider>
 
-                <v-list-tile @click="" :to="{ path: '/processos' }">
+                <v-list-tile :to="{ path: '/processos' }">
                     <v-list-tile-action>
                         <v-icon>timeline</v-icon>
                     </v-list-tile-action>
@@ -23,7 +23,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile @click="" :to="{ path: '/ameacas' }">
+                <v-list-tile :to="{ path: '/ameacas' }">
                     <v-list-tile-action>
                         <v-icon>warning</v-icon>
                     </v-list-tile-action>
@@ -32,7 +32,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile @click="" :to="{ path: '/niveis' }">
+                <v-list-tile :to="{ path: '/niveis' }">
                     <v-list-tile-action>
                         <v-icon>sort</v-icon>
                     </v-list-tile-action>
@@ -41,7 +41,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile @click="" :to="{ path: '/usuarios' }">
+                <v-list-tile :to="{ path: '/usuarios' }">
                     <v-list-tile-action>
                         <v-icon>person</v-icon>
                     </v-list-tile-action>
@@ -50,7 +50,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile @click="" :to="{ path: '/acoes' }">
+                <v-list-tile :to="{ path: '/acoes' }">
                     <v-list-tile-action>
                         <v-icon>transfer_within_a_station</v-icon>
                     </v-list-tile-action>
@@ -59,7 +59,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile @click="" :to="{ path: '/eventos' }">
+                <v-list-tile :to="{ path: '/eventos' }">
                     <v-list-tile-action>
                         <v-icon>event_note</v-icon>
                     </v-list-tile-action>
@@ -70,7 +70,7 @@
 
                 <v-divider></v-divider>
 
-                <v-list-tile @click="">
+                <v-list-tile>
                     <v-list-tile-action>
                         <v-icon>settings</v-icon>
                     </v-list-tile-action>
@@ -79,7 +79,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile @click="">
+                <v-list-tile>
                     <v-list-tile-action>
                         <v-icon>help</v-icon>
                     </v-list-tile-action>
@@ -110,7 +110,7 @@
 
             <v-btn icon large>
                 <v-avatar size="32px" tile>
-                    <img src="https://vuetifyjs.com/static/doc-images/logo.svg" alt="Usuário">
+                    <img src="/favicon-256.png" alt="Usuário">
                 </v-avatar>
             </v-btn>
         </v-toolbar>
@@ -123,6 +123,7 @@
 
 <script>
     export default {
+        name: 'Home',
         data() {
             return {
                 drawer: null

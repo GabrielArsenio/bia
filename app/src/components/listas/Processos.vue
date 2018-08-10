@@ -47,6 +47,7 @@
     import CadastroProcesso from '../cadastros/CadastroProcesso'
 
     export default {
+        name: 'Processos',
         components: {
             'dialog-confirm-remove': DialogConfirmRemove,
             'cadastro-processo': CadastroProcesso

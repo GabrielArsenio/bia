@@ -45,6 +45,7 @@
     import CadastroAmeaca from '../cadastros/CadastroAmeaca'
 
     export default {
+        name: 'Usuarios',
         components: {
             'dialog-confirm-remove': DialogConfirmRemove,
             'cadastro-ameaca': CadastroAmeaca

@@ -45,6 +45,7 @@
     import CadastroNivel from '../cadastros/CadastroNivel'
 
     export default {
+        name: 'Niveis',
         components: {
             'dialog-confirm-remove': DialogConfirmRemove,
             'cadastro-nivel': CadastroNivel

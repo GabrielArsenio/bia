@@ -1,10 +1,10 @@
-import Vue from 'vue/dist/vue';
-import VueRouter from 'vue-router/dist/vue-router';
-import VueResource from 'vue-resource/dist/vue-resource';
-import Vuetify from 'vuetify/dist/vuetify';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import VueResource from 'vue-resource';
+import Vuetify from 'vuetify';
 import App from './src/App.vue';
 import { routes } from './routes';
-import 'vuetify/dist/vuetify.css';
+import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 Vue.use(VueRouter);

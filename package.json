@@ -5,6 +5,7 @@
   "private": true,
   "main": "./bin/www",
   "scripts": {
+    "prestart": "npm run build",
     "start": "node ./bin/www",
     "build": "parcel build app/index.html -d public --no-cache",
     "dev": "node ./bin/www | parcel watch app/index.html -d public",

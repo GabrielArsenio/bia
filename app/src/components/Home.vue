@@ -14,21 +14,12 @@
 
                 <v-divider></v-divider>
 
-                <v-list-tile :to="{ path: '/processos' }">
+                <v-list-tile :to="{ path: '/usuarios' }">
                     <v-list-tile-action>
-                        <v-icon>timeline</v-icon>
+                        <v-icon>person</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>Cadastro de processos</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-
-                <v-list-tile :to="{ path: '/ameacas' }">
-                    <v-list-tile-action>
-                        <v-icon>warning</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Cadastro de ameaças</v-list-tile-title>
+                        <v-list-tile-title>Cadastro de usuários</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
@@ -41,12 +32,21 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile :to="{ path: '/usuarios' }">
+                <v-list-tile :to="{ path: '/ameacas' }">
                     <v-list-tile-action>
-                        <v-icon>person</v-icon>
+                        <v-icon>warning</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>Cadastro de usuários</v-list-tile-title>
+                        <v-list-tile-title>Cadastro de ameaças</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+
+                <v-list-tile :to="{ path: '/processos' }">
+                    <v-list-tile-action>
+                        <v-icon>timeline</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Cadastro de processos</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 

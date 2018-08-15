@@ -49,7 +49,6 @@
 
 <script>
     import { Service } from '../../domain/Service'
-    import Processo from '../../domain/Processo'
 
     export default {
         props: {

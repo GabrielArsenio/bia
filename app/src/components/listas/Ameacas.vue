@@ -22,9 +22,9 @@
             </template>
         </v-data-table>
 
-        <cadastro-ameaca :document="document" @cancel="document = false" @save="onSave"></cadastro-ameaca>
+        <CadastroAmeaca :document="document" @cancel="document = false" @save="onSave"></CadastroAmeaca>
 
-        <dialog-confirm-remove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></dialog-confirm-remove>
+        <DialogConfirmRemove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></DialogConfirmRemove>
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
@@ -40,15 +40,14 @@
 
 <script>
     import { Service } from '../../domain/Service'
-    import Ameaca from '../../domain/Ameaca'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
     import CadastroAmeaca from '../cadastros/CadastroAmeaca'
 
     export default {
         name: 'Ameacas',
         components: {
-            'dialog-confirm-remove': DialogConfirmRemove,
-            'cadastro-ameaca': CadastroAmeaca
+            DialogConfirmRemove,
+            CadastroAmeaca
         },
         data() {
             return {
@@ -76,7 +75,7 @@
                 if (this.document) {
                     this.document = false
                 }
-                this.document = new Ameaca()
+                this.document = {}
             },
             edit(document) {
                 if (this.document) {

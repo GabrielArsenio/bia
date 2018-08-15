@@ -24,9 +24,9 @@
             </template>
         </v-data-table>
 
-        <cadastro-acao :document="document" @cancel="document = false" @save="onSave"></cadastro-acao>
+        <CadastroAcao :document="document" @cancel="document = false" @save="onSave"></CadastroAcao>
 
-        <dialog-confirm-remove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></dialog-confirm-remove>
+        <DialogConfirmRemove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></DialogConfirmRemove>
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
@@ -42,15 +42,14 @@
 
 <script>
     import { Service } from '../../domain/Service'
-    import Acao from '../../domain/Acao'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
     import CadastroAcao from '../cadastros/CadastroAcao'
 
     export default {
         name: 'Acoes',
         components: {
-            'dialog-confirm-remove': DialogConfirmRemove,
-            'cadastro-acao': CadastroAcao
+            DialogConfirmRemove,
+            CadastroAcao
         },
         data() {
             return {
@@ -80,7 +79,7 @@
                 if (this.document) {
                     this.document = false
                 }
-                this.document = new Acao()
+                this.document = {}
             },
             edit(document) {
                 if (this.document) {

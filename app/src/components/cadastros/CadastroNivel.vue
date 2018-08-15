@@ -26,7 +26,6 @@
 
 <script>
     import { Service } from '../../domain/Service'
-    import Nivel from '../../domain/Nivel'
 
     export default {
         props: {

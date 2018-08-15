@@ -26,7 +26,6 @@
 
 <script>
     import { Service } from '../../domain/Service'
-    import Ameaca from '../../domain/Ameaca'
 
     export default {
         props: {

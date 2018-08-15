@@ -24,9 +24,9 @@
             </template>
         </v-data-table>
 
-        <cadastro-processo :document="document" @cancel="document = false" @save="onSave"></cadastro-processo>
+        <CadastroProcesso :document="document" @cancel="document = false" @save="onSave"></CadastroProcesso>
 
-        <dialog-confirm-remove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></dialog-confirm-remove>
+        <DialogConfirmRemove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></DialogConfirmRemove>
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
@@ -42,15 +42,14 @@
 
 <script>
     import { Service } from '../../domain/Service'
-    import Processo from '../../domain/Processo'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
     import CadastroProcesso from '../cadastros/CadastroProcesso'
 
     export default {
         name: 'Processos',
         components: {
-            'dialog-confirm-remove': DialogConfirmRemove,
-            'cadastro-processo': CadastroProcesso
+            DialogConfirmRemove,
+            CadastroProcesso
         },
         data() {
             return {
@@ -80,7 +79,7 @@
                 if (this.document) {
                     this.document = false
                 }
-                this.document = new Processo()
+                this.document = {}
             },
             edit(document) {
                 if (this.document) {

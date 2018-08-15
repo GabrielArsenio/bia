@@ -22,9 +22,9 @@
             </template>
         </v-data-table>
 
-        <cadastro-nivel :document="document" @cancel="document = false" @save="onSave"></cadastro-nivel>
+        <CadastroNivel :document="document" @cancel="document = false" @save="onSave"></CadastroNivel>
 
-        <dialog-confirm-remove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></dialog-confirm-remove>
+        <DialogConfirmRemove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></DialogConfirmRemove>
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
@@ -40,15 +40,14 @@
 
 <script>
     import { Service } from '../../domain/Service'
-    import Nivel from '../../domain/Nivel'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
     import CadastroNivel from '../cadastros/CadastroNivel'
 
     export default {
         name: 'Niveis',
         components: {
-            'dialog-confirm-remove': DialogConfirmRemove,
-            'cadastro-nivel': CadastroNivel
+            DialogConfirmRemove,
+            CadastroNivel
         },
         data() {
             return {
@@ -76,7 +75,7 @@
                 if (this.document) {
                     this.document = false
                 }
-                this.document = new Nivel()
+                this.document = {}
             },
             edit(document) {
                 if (this.document) {

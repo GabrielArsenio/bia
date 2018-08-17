@@ -10,7 +10,8 @@
 
         <v-data-table hide-actions fix-header :headers="headers" :items="items" :search="search">
             <template slot="items" slot-scope="props">
-                <td>{{ props.item.descricao }}</td>
+                <td>{{ props.item.nome }}</td>
+                <td>{{ props.item.login }}</td>
                 <td class="text-xs-right">
                     <v-btn icon class="mx-0" @click="edit(props.item)">
                         <v-icon color="teal">edit</v-icon>
@@ -22,7 +23,7 @@
             </template>
         </v-data-table>
 
-        <!-- <CadastroAmeaca :document="document" @cancel="document = false" @save="onSave"></CadastroAmeaca> -->
+        <CadastroUsuario :document="document" @cancel="document = false" @save="onSave"></CadastroUsuario>
 
         <DialogConfirmRemove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></DialogConfirmRemove>
 
@@ -41,13 +42,13 @@
 <script>
     import { Service } from '../../domain/Service'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
-    import CadastroAmeaca from '../cadastros/CadastroAmeaca'
+    import CadastroUsuario from '../cadastros/CadastroUsuario'
 
     export default {
         name: 'Usuarios',
         components: {
             DialogConfirmRemove,
-            CadastroAmeaca
+            CadastroUsuario
         },
         data() {
             return {
@@ -57,7 +58,8 @@
                 documentRemoving: false,
                 search: '',
                 headers: [
-                    { text: 'Usuário', value: 'descricao' },
+                    { text: 'Nome', value: 'nome' },
+                    { text: 'Login', value: 'login' },
                     { text: 'Ações', value: 'descricao', sortable: false, align: 'right' }
                 ],
                 items: []

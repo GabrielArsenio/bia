@@ -13,6 +13,20 @@ Vue.use(Vuetify);
 
 const router = new VueRouter({ routes });
 
+Vue.http.interceptors.push((request, next) => {
+    if (request.url.startsWith('api')) {
+        request.headers.map['X-Access-Token'] = [localStorage.getItem('token')];
+    }
+
+    next(response => {
+        if (response.status === 401) {
+            router.push({ name: 'login' })
+            return;
+        }
+        localStorage.setItem('token', response.headers.map['x-access-token'][0]);
+    });
+});
+
 new Vue({
     el: '#app',
     router,

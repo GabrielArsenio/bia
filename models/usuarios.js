@@ -1,7 +1,8 @@
-var Mongoose = require('mongoose');
+const Mongoose = require('mongoose');
 
-var modelo = new Mongoose.Schema({
+const modelo = new Mongoose.Schema({
     nome: { type: String, required: true },
+    foto: { type: String },
     login: { type: String, required: true, index: true, unique: true },
     senha: { type: String, required: true }
 });

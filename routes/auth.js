@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const usuarioSchema = require('../models/usuarios')
 const usuarioModel = mongoose.model('usuarios', usuarioSchema)
+const TOKEN_EXPIRES = 300;
 
 router.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -13,13 +14,18 @@ router.use(function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
+    if (!req.body.login || !req.body.senha) {
+        res.sendStatus(401);
+        return;
+    }
+
     usuarioModel.findOne(req.body, function (err, doc) {
         if (!doc) {
             res.sendStatus(401);
             return;
         }
 
-        const token = jwt.sign(doc.toObject(), process.env.JWT_SECRET, { expiresIn: 300 }); // Seconds
+        const token = jwt.sign(doc.toObject(), process.env.JWT_SECRET, { expiresIn: TOKEN_EXPIRES }); // Seconds
 
         res.set('X-Access-Token', token).sendStatus(204);
     });
@@ -38,7 +44,7 @@ router.get('/:token', function (req, res, next) {
                 return;
             }
 
-            const token = jwt.sign(doc.toObject(), process.env.JWT_SECRET, { expiresIn: 300 });
+            const token = jwt.sign(doc.toObject(), process.env.JWT_SECRET, { expiresIn: TOKEN_EXPIRES });
 
             res.set('X-Access-Token', token).send(decoded);
         });

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const TOKEN_EXPIRES = 300;
 
 var resources = [];
 var schemas = [];
@@ -27,15 +28,22 @@ router.param('resource', function (req, res, next) {
 });
 
 router.use(
-    // function (req, res, next) {
-    //     jwt.verify(req.headers['x-access-token'], process.env.JWT_SECRET, function (err, decoded) {
-    //         if (err) {
-    //             res.status(401).send(err);
-    //             return;
-    //         }
-    //         next();
-    //     });
-    // },
+    function (req, res, next) {
+        jwt.verify(req.headers['x-access-token'], process.env.JWT_SECRET, function (err, decoded) {
+            if (err) {
+                res.status(401).send(err);
+                return;
+            }
+
+            delete decoded.exp
+            delete decoded.iat
+
+            const token = jwt.sign(decoded, process.env.JWT_SECRET, { expiresIn: TOKEN_EXPIRES });
+            res.header("X-Access-Token", token);
+
+            next();
+        });
+    },
     function (req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");

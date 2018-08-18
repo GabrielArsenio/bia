@@ -110,7 +110,7 @@
 
             <v-btn icon large>
                 <v-avatar size="32px" tile>
-                    <img src="/favicon-256.png" alt="Usuário">
+                    <!-- <img src="" alt="Usuário"> -->
                 </v-avatar>
             </v-btn>
         </v-toolbar>

@@ -15,14 +15,13 @@
                     </v-flex>
 
                     <v-flex xs12>
-                        <v-select 
+                        <v-autocomplete 
                             :items="niveis" 
                             v-model="tempDocument.nivel"
                             label="Nível" 
                             item-text="descricao" 
                             item-value="_id" 
-                            autocomplete
-                        ></v-select>
+                        ></v-autocomplete>
                     </v-flex>
 
                     <v-flex xs12>

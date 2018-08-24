@@ -12,25 +12,23 @@
                     </v-flex>
 
                     <v-flex xs12>
-                        <v-select 
+                        <v-autocomplete 
                             :items="processos" 
                             v-model="tempDocument.processo"
                             label="Processo" 
                             item-text="descricao" 
                             item-value="_id" 
-                            autocomplete
-                        ></v-select>
+                        ></v-autocomplete>
                     </v-flex>
 
                     <v-flex xs12>
-                        <v-select 
+                        <v-autocomplete 
                             :items="ameacas" 
                             v-model="tempDocument.ameaca"
                             label="Ameaças" 
                             item-text="descricao" 
                             item-value="_id" 
-                            autocomplete
-                        ></v-select>
+                        ></v-autocomplete>
                     </v-flex>
 
                     <v-flex xs12>

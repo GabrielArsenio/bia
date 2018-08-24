@@ -26,7 +26,7 @@
                     </v-flex>
 
                     <v-flex xs12>
-                        <v-text-field v-model="tempDocument.tolerancia" label="Observação"></v-text-field>
+                        <v-text-field v-model="tempDocument.tolerancia" label="Tolerância"></v-text-field>
                     </v-flex>
                 </v-layout>
             </v-container>

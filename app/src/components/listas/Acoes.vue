@@ -3,7 +3,13 @@
         <v-card-title>
             Indicativos de ação
             <v-spacer></v-spacer>
-            <v-text-field v-model="search" append-icon="search" label="Pesquisar ações" single-line hide-details></v-text-field>
+            <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Pesquisar ações"
+                single-line
+                hide-details
+            ></v-text-field>
         </v-card-title>
 
         <v-btn slot="activator" color="primary" dark class="mb-2" @click.stop="create">Novo</v-btn>
@@ -20,13 +26,30 @@
                     <v-btn icon class="mx-0" @click="remove(props.item)">
                         <v-icon color="pink">delete</v-icon>
                     </v-btn>
+                    <v-btn icon class="mx-0" @click="addEvent(props.item)">
+                        <v-icon color="blue">event</v-icon>
+                    </v-btn>
                 </td>
             </template>
         </v-data-table>
 
-        <CadastroAcao :document="document" @cancel="document = false" @save="onSave"></CadastroAcao>
+        <CadastroAcao
+            :document="document"
+            @cancel="document = false"
+            @save="onSave"
+        ></CadastroAcao>
 
-        <DialogConfirmRemove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove"></DialogConfirmRemove>
+        <CadastroEvento
+            :document="documentEvent"
+            @cancel="documentEvent = false"
+            @save="onSave"
+        ></CadastroEvento>
+
+        <DialogConfirmRemove 
+            :active="documentRemoving"
+            @cancel="documentRemoving = false"
+            @remove="onRemove"
+        ></DialogConfirmRemove>
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
@@ -44,18 +67,21 @@
     import { Service } from '../../domain/Service'
     import DialogConfirmRemove from '../shared/DialogConfirmRemove'
     import CadastroAcao from '../cadastros/CadastroAcao'
+    import CadastroEvento from '../cadastros/CadastroEvento'
 
     export default {
         name: 'Acoes',
         components: {
             DialogConfirmRemove,
-            CadastroAcao
+            CadastroAcao,
+            CadastroEvento
         },
         data() {
             return {
                 alertSaved: false,
                 alertRemoved: false,
                 document: false,
+                documentEvent: false,
                 documentRemoving: false,
                 search: '',
                 headers: [
@@ -75,6 +101,12 @@
                 .then(items => this.items = items);
         },
         methods: {
+            addEvent(itemAcao) {
+                if (this.documentEvent) {
+                    this.documentEvent = false
+                }
+                this.documentEvent = itemAcao
+            },
             create() {
                 if (this.document) {
                     this.document = false

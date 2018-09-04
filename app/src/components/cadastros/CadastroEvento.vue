@@ -2,7 +2,7 @@
     <v-dialog v-model="isOpen" max-width="500px">
         <v-card>
             <v-card-title class="grey lighten-4 py-4 title">
-                {{ tempDocument._id ? 'Editar' : 'Novo' }} evento
+                Evento
             </v-card-title>
             <v-container grid-list-sm class="pa-4">
                 <v-layout row wrap>
@@ -23,13 +23,27 @@
                     </v-flex>
 
                     <v-flex xs12>
-                        <v-autocomplete 
-                            label="Processo" 
-                            item-text="procedimento" 
-                            item-value="_id" 
-                            v-model="tempDocument.acao"
-                            :items="acoes" 
-                        ></v-autocomplete>
+                        <v-text-field 
+                            label="Processo"
+                            :value="tempDocument.processo.descricao"
+                            readonly
+                        ></v-text-field>
+                    </v-flex>
+
+                    <v-flex xs12>
+                        <v-text-field 
+                            label="Ameaça"
+                            :value="tempDocument.ameaca.descricao"
+                            readonly
+                        ></v-text-field>
+                    </v-flex>
+
+                    <v-flex xs12>
+                        <v-textarea 
+                            label="Procedimento"
+                            :value="tempDocument.procedimento"
+                            readonly
+                        ></v-textarea>
                     </v-flex>
 
                     <v-flex xs12>
@@ -61,7 +75,14 @@
         data() {
             return {
                 isOpen: false,
-                tempDocument: {},
+                tempDocument: {
+                    processo: {
+                        descricao: ''
+                    },
+                    ameaca: {
+                        descricao: ''
+                    }
+                },
                 acoes: []
             }
         },

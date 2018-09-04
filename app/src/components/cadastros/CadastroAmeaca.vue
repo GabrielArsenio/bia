@@ -7,11 +7,21 @@
             <v-container grid-list-sm class="pa-4">
                 <v-layout row wrap>
                     <v-flex xs3>
-                        <v-text-field v-model="tempDocument._id" disabled label="Código"></v-text-field>
+                        <v-text-field
+                            label="Código"
+                            v-model="tempDocument._id"
+                            disabled
+                        ></v-text-field>
                     </v-flex>
 
                     <v-flex xs12>
-                        <v-text-field v-model="tempDocument.descricao" label="Descrição"></v-text-field>
+                        <v-text-field
+                            label="Descrição"
+                            v-model="tempDocument.descricao"
+                            name="descricao"
+                            v-validate="'required'"
+                            :error="errors.has('descricao')"
+                        ></v-text-field>
                     </v-flex>
                 </v-layout>
             </v-container>

@@ -2,6 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 import Vuetify from 'vuetify';
+import VeeValidate, { Validator } from 'vee-validate';
+import msg from './pt_BR';
 import App from './src/App.vue';
 import { routes } from './routes';
 import 'vuetify/dist/vuetify.min.css';
@@ -10,6 +12,11 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(Vuetify);
+
+Validator.localize(msg);
+Vue.use(VeeValidate, {
+    locale: 'pt_BR'
+});
 
 const router = new VueRouter({ routes });
 

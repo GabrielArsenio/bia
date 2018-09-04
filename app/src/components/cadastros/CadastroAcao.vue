@@ -8,14 +8,18 @@
                 <v-layout row wrap>
 
                     <v-flex xs3>
-                        <v-text-field v-model="document._id" disabled label="Código"></v-text-field>
+                        <v-text-field
+                            label="Código"
+                            v-model="document._id"
+                            disabled
+                        ></v-text-field>
                     </v-flex>
 
                     <v-flex xs12>
                         <v-autocomplete 
-                            :items="processos" 
-                            v-model="tempDocument.processo"
                             label="Processo" 
+                            v-model="tempDocument.processo"
+                            :items="processos" 
                             item-text="descricao" 
                             item-value="_id" 
                         ></v-autocomplete>
@@ -23,16 +27,19 @@
 
                     <v-flex xs12>
                         <v-autocomplete 
-                            :items="ameacas" 
-                            v-model="tempDocument.ameaca"
                             label="Ameaças" 
+                            v-model="tempDocument.ameaca"
+                            :items="ameacas" 
                             item-text="descricao" 
                             item-value="_id" 
                         ></v-autocomplete>
                     </v-flex>
 
                     <v-flex xs12>
-                        <v-text-field v-model="tempDocument.procedimento" label="Procedimento"></v-text-field>
+                        <v-textarea
+                            label="Procedimento"
+                            v-model="tempDocument.procedimento"
+                        ></v-textarea>
                     </v-flex>
                 </v-layout>
             </v-container>

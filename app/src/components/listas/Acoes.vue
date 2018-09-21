@@ -88,7 +88,7 @@
                     { text: 'Processo', value: 'processo' },
                     { text: 'Ameaça', value: 'ameaca' },
                     { text: 'Procedimento', value: 'procedimento' },
-                    { text: 'Ações', sortable: false, align: 'right' }
+                    { text: 'Ações', value: 'descricao', sortable: false, align: 'right' }
                 ],
                 items: []
             }
@@ -101,11 +101,11 @@
                 .then(items => this.items = items);
         },
         methods: {
-            addEvent(acao) {
+            addEvent(itemAcao) {
                 if (this.documentEvent) {
                     this.documentEvent = false
                 }
-                this.documentEvent = { acao }
+                this.documentEvent = itemAcao
             },
             create() {
                 if (this.document) {

@@ -19,7 +19,7 @@
                         <v-icon>person</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>Cadastro de usuários</v-list-tile-title>
+                        <v-list-tile-title>Usuários</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
@@ -28,7 +28,7 @@
                         <v-icon>sort</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>Cadastro de niveis de criticidade</v-list-tile-title>
+                        <v-list-tile-title>Níveis de criticidade</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
@@ -37,7 +37,7 @@
                         <v-icon>warning</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>Cadastro de ameaças</v-list-tile-title>
+                        <v-list-tile-title>Ameaças</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
@@ -46,7 +46,7 @@
                         <v-icon>timeline</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>Cadastro de processos</v-list-tile-title>
+                        <v-list-tile-title>Processos</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
@@ -59,34 +59,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile :to="{ path: '/eventos' }">
-                    <v-list-tile-action>
-                        <v-icon>event_note</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Eventos</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-
                 <v-divider></v-divider>
-
-                <v-list-tile>
-                    <v-list-tile-action>
-                        <v-icon>settings</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Configurações</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-
-                <v-list-tile>
-                    <v-list-tile-action>
-                        <v-icon>help</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Ajuda</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
 
             </v-list>
         </v-navigation-drawer>
@@ -100,7 +73,13 @@
                 </v-tooltip>
             </v-toolbar-title>
 
-            <v-text-field flat solo-inverted prepend-icon="search" label="Pesquisar" class="hidden-sm-and-down"></v-text-field>
+            <v-text-field
+                label="Pesquisar"
+                flat
+                solo-inverted
+                prepend-icon="search"
+                class="hidden-sm-and-down"
+            ></v-text-field>
 
             <v-spacer></v-spacer>
 

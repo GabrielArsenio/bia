@@ -14,12 +14,65 @@
                         ></v-text-field>
                     </v-flex>
 
-                    <v-flex xs6>
-                        <v-text-field
-                            label="Data"
-                            v-model="dataHoraFormatted"
-                            disabled
-                        ></v-text-field>
+                    <v-flex xs9></v-flex>
+
+                    <v-flex xs6 lg6>
+                        <v-menu
+                            ref="menu1"
+                            :close-on-content-click="false"
+                            v-model="menu1"
+                            :nudge-right="40"
+                            lazy
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            max-width="290px"
+                            min-width="290px"
+                        >
+                            <v-text-field
+                                label="Data"
+                                slot="activator"
+                                v-model="dateFormatted"
+                                persistent-hint
+                                prepend-icon="event"
+                                @blur="date = parseDate(dateFormatted)"
+                            ></v-text-field>
+                            <v-date-picker
+                                v-model="date"
+                                no-title
+                                @input="menu1 = false"
+                            ></v-date-picker>
+                        </v-menu>
+                    </v-flex>
+
+                    <v-flex xs11 sm5>
+                        <v-menu
+                            ref="menu"
+                            :close-on-content-click="false"
+                            v-model="menu2"
+                            :nudge-right="40"
+                            :return-value.sync="time"
+                            lazy
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            max-width="290px"
+                            min-width="290px"
+                        >
+                            <v-text-field
+                                label="Hora"
+                                slot="activator"
+                                v-model="time"
+                                prepend-icon="access_time"
+                                readonly
+                            ></v-text-field>
+                            <v-time-picker
+                                v-if="menu2"
+                                v-model="time"
+                                @change="$refs.menu.save(time)"
+                                format="24hr"
+                            ></v-time-picker>
+                        </v-menu>
                     </v-flex>
 
                     <v-flex xs12>
@@ -83,10 +136,18 @@
                         descricao: ''
                     }
                 },
-                acoes: []
+                acoes: [],
+                menu1: false,
+                dateFormatted: null,
+                date: null,
+                time: null,
+                menu2: false,
             }
         },
         computed: {
+            computedDateFormatted () {
+                return this.formatDate(this.date)
+            },
             dataHoraFormatted () {
                 if (!this.tempDocument.dataHora) {
                     return null
@@ -122,6 +183,12 @@
             }
         },
         methods: {
+            parseDate (date) {
+                if (!date) return null
+
+                const [month, day, year] = date.split('/')
+                return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+            },
             cancel() {
                 this.$emit('cancel')
             },

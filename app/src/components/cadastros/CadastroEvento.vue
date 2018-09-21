@@ -15,17 +15,37 @@
                     </v-flex>
 
                     <v-flex xs6>
-                        <v-text-field
-                            label="Data"
-                            v-model="dataHoraFormatted"
-                            disabled
-                        ></v-text-field>
+                        <v-menu
+                            ref="menu"
+                            :close-on-content-click="false"
+                            v-model="menu"
+                            :nudge-right="40"
+                            :return-value.sync="tempDocument.data"
+                            lazy
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            min-width="290px"
+                        >
+                            <v-text-field
+                                label="Data"
+                                slot="activator"
+                                v-model="tempDocument.data"
+                                prepend-icon="event"
+                                readonly
+                            ></v-text-field>
+                            <v-date-picker v-model="tempDocument.data" no-title scrollable>
+                                <v-spacer></v-spacer>
+                                <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+                                <v-btn flat color="primary" @click="$refs.menu.save(tempDocument.data)">OK</v-btn>
+                            </v-date-picker>
+                        </v-menu>
                     </v-flex>
 
                     <v-flex xs12>
                         <v-text-field 
                             label="Processo"
-                            :value="tempDocument.processo.descricao"
+                            :value="tempDocument.acao.processo.descricao"
                             readonly
                         ></v-text-field>
                     </v-flex>
@@ -33,7 +53,7 @@
                     <v-flex xs12>
                         <v-text-field 
                             label="Ameaça"
-                            :value="tempDocument.ameaca.descricao"
+                            :value="tempDocument.acao.ameaca.descricao"
                             readonly
                         ></v-text-field>
                     </v-flex>
@@ -41,7 +61,7 @@
                     <v-flex xs12>
                         <v-textarea 
                             label="Procedimento"
-                            :value="tempDocument.procedimento"
+                            :value="tempDocument.acao.procedimento"
                             readonly
                         ></v-textarea>
                     </v-flex>
@@ -74,13 +94,16 @@
         },
         data() {
             return {
+                menu: false,
                 isOpen: false,
                 tempDocument: {
-                    processo: {
-                        descricao: ''
-                    },
-                    ameaca: {
-                        descricao: ''
+                    acao: {
+                        processo: {
+                            descricao: ''
+                        },
+                        ameaca: {
+                            descricao: ''
+                        }
                     }
                 },
                 acoes: []
@@ -88,18 +111,18 @@
         },
         computed: {
             dataHoraFormatted () {
-                if (!this.tempDocument.dataHora) {
+                if (!this.tempDocument.data) {
                     return null
                 }
 
-                const dataHora = this.tempDocument.dataHora
+                const data = this.tempDocument.data
 
                 const [day, month, year, hour, minute] = [
-                    dataHora.getDate(),
-                    dataHora.getMonth() + 1,
-                    dataHora.getFullYear(),
-                    dataHora.getHours(),
-                    dataHora.getMinutes()
+                    data.getDate(),
+                    data.getMonth() + 1,
+                    data.getFullYear(),
+                    data.getHours(),
+                    data.getMinutes()
                 ];                
 
                 return `${day}/${month}/${year} ${hour}:${minute}`

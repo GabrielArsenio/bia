@@ -21,7 +21,7 @@
     "vue-hot-reload-api": "^2.3.0",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.1.10"
+    "vuetify": "^1.2.4"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.1.2",

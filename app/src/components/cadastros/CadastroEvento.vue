@@ -1,21 +1,11 @@
 <template>
-    <v-dialog v-model="isOpen" max-width="500px">
+    <v-dialog v-model="isOpen" max-width="500px" persistent>
         <v-card>
             <v-card-title class="grey lighten-4 py-4 title">
                 Evento
             </v-card-title>
             <v-container grid-list-sm class="pa-4">
                 <v-layout row wrap>
-                    <v-flex xs3>
-                        <v-text-field 
-                            label="Código"
-                            v-model="tempDocument._id"
-                            disabled
-                        ></v-text-field>
-                    </v-flex>
-
-                    <v-flex xs9></v-flex>
-
                     <v-flex xs6 lg6>
                         <v-menu
                             ref="menu1"
@@ -41,11 +31,12 @@
                                 v-model="date"
                                 no-title
                                 @input="menu1 = false"
+                                locale="pt-br"
                             ></v-date-picker>
                         </v-menu>
                     </v-flex>
 
-                    <v-flex xs11 sm5>
+                    <v-flex xs6 sm5>
                         <v-menu
                             ref="menu"
                             :close-on-content-click="false"
@@ -69,8 +60,8 @@
                             <v-time-picker
                                 v-if="menu2"
                                 v-model="time"
-                                @change="$refs.menu.save(time)"
                                 format="24hr"
+                                @change="$refs.menu.save(time)"
                             ></v-time-picker>
                         </v-menu>
                     </v-flex>
@@ -78,7 +69,7 @@
                     <v-flex xs12>
                         <v-text-field 
                             label="Processo"
-                            :value="tempDocument.processo.descricao"
+                            :value="tempDocument.acao.processo.descricao"
                             readonly
                         ></v-text-field>
                     </v-flex>
@@ -86,7 +77,7 @@
                     <v-flex xs12>
                         <v-text-field 
                             label="Ameaça"
-                            :value="tempDocument.ameaca.descricao"
+                            :value="tempDocument.acao.ameaca.descricao"
                             readonly
                         ></v-text-field>
                     </v-flex>
@@ -94,7 +85,7 @@
                     <v-flex xs12>
                         <v-textarea 
                             label="Procedimento"
-                            :value="tempDocument.procedimento"
+                            :value="tempDocument.acao.procedimento"
                             readonly
                         ></v-textarea>
                     </v-flex>
@@ -129,11 +120,13 @@
             return {
                 isOpen: false,
                 tempDocument: {
-                    processo: {
-                        descricao: ''
-                    },
-                    ameaca: {
-                        descricao: ''
+                    acao: {
+                        processo: {
+                            descricao: ''
+                        },
+                        ameaca: {
+                            descricao: ''
+                        }
                     }
                 },
                 acoes: [],
@@ -178,11 +171,18 @@
 
                     this.tempDocument.dataHora = new Date()
                 }
-
-                this.getAcoes()
+            },
+            date (val) {
+                this.dateFormatted = this.formatDate(this.date)
             }
         },
         methods: {
+            formatDate (date) {
+                if (!date) return null
+
+                const [year, month, day] = date.split('-')
+                return `${month}/${day}/${year}`
+            },
             parseDate (date) {
                 if (!date) return null
 
@@ -193,16 +193,14 @@
                 this.$emit('cancel')
             },
             save() {
+                this.tempDocument.data = this.date
+                this.tempDocument.hora = this.time
+
                 new Service(this.$resource('api/eventos{/id}'))
                     .save(this.tempDocument)
                     .then((res) => {
                         this.$emit('save', res.body || this.tempDocument)
                     }, err => console.log(err))
-            },
-            getAcoes() {
-                new Service(this.$resource('api/acoes{/id}'))
-                    .findAll()
-                    .then(acoes => this.acoes = acoes);
             }
         }
     }

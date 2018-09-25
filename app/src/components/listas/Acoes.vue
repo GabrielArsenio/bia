@@ -42,7 +42,7 @@
         <CadastroEvento
             :document="documentEvent"
             @cancel="documentEvent = false"
-            @save="onSave"
+            @save="onSaveEvent"
         ></CadastroEvento>
 
         <DialogConfirmRemove 
@@ -101,11 +101,11 @@
                 .then(items => this.items = items);
         },
         methods: {
-            addEvent(itemAcao) {
+            addEvent(acao) {
                 if (this.documentEvent) {
                     this.documentEvent = false
                 }
-                this.documentEvent = itemAcao
+                this.documentEvent = { acao }
             },
             create() {
                 if (this.document) {
@@ -135,6 +135,10 @@
                     this.items.push(newDocument)
                 }
                 this.document = false
+            },
+            onSaveEvent() {
+                this.alertSaved = true
+                this.documentEvent = false
             },
             onRemove() {
                 this.service

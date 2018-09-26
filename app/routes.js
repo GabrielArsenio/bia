@@ -1,11 +1,12 @@
 import Home from './src/components/Home.vue';
 import Login from './src/components/Login.vue';
-import Eventos from './src/components/listas/Eventos.vue';
 import Usuarios from './src/components/listas/Usuarios.vue';
 import Ameacas from './src/components/listas/Ameacas.vue';
 import Processos from './src/components/listas/Processos.vue';
 import Niveis from './src/components/listas/Niveis.vue';
 import Acoes from './src/components/listas/Acoes.vue';
+
+import ProcessosPorNivel from './src/components/listas/ProcessosPorNivel.vue';
 
 export const routes = [{
     path: '/login',
@@ -16,9 +17,6 @@ export const routes = [{
     name: 'home',
     component: Home,
     children: [{
-        path: '/eventos',
-        component: Eventos
-    }, {
         path: '/ameacas',
         component: Ameacas
     }, {
@@ -33,5 +31,8 @@ export const routes = [{
     }, {
         path: '/usuarios',
         component: Usuarios
+    }, {
+        path: '/processos-por-nivel-criticidade',
+        component: ProcessosPorNivel
     }]
 }];

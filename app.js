@@ -3,6 +3,8 @@ console.log('========================= BIA =========================')
 const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const apiMiddlewares = require('./routes/api-middlewares');
+const consultas = require('./routes/consultas');
 const api = require('./routes/api');
 const auth = require('./routes/auth');
 
@@ -18,6 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
+app.use('/api', apiMiddlewares);
+app.use('/api', consultas);
 app.use('/api', api);
 app.use('/auth', auth);
 

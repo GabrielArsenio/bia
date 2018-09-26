@@ -61,6 +61,15 @@
 
                 <v-divider></v-divider>
 
+                <v-list-tile :to="{ path: '/processos-por-nivel-criticidade' }">
+                    <v-list-tile-action>
+                        <v-icon>assignment</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Processos por nível de criticidade</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+
             </v-list>
         </v-navigation-drawer>
 

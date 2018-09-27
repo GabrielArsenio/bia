@@ -7,6 +7,7 @@ import Niveis from './src/components/listas/Niveis.vue';
 import Acoes from './src/components/listas/Acoes.vue';
 
 import ProcessosPorNivel from './src/components/listas/ProcessosPorNivel.vue';
+import AmeacasAosProcessos from './src/components/listas/AmeacasAosProcessos.vue';
 
 export const routes = [{
     path: '/login',
@@ -34,5 +35,8 @@ export const routes = [{
     }, {
         path: '/processos-por-nivel-criticidade',
         component: ProcessosPorNivel
+    }, {
+        path: '/ameacas-aos-processos',
+        component: AmeacasAosProcessos
     }]
 }];

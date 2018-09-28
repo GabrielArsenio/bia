@@ -20,8 +20,8 @@
                     <v-list-tile avatar :key="acao._id">
 
                         <v-list-tile-content>
-                            <v-list-tile-title>{{ acao.processo.descricao }}</v-list-tile-title>
-                            <v-list-tile-sub-title>{{ acao.processo.nivel.descricao }} - {{ acao.processo.tolerancia }}</v-list-tile-sub-title>
+                            <v-list-tile-title>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ acao.processo.descricao }} - {{ acao.processo.nivel.descricao }} - {{ acao.processo.tolerancia }}</v-list-tile-title>
+                            <!-- <v-list-tile-sub-title>{{ acao.processo.nivel.descricao }} - {{ acao.processo.tolerancia }}</v-list-tile-sub-title> -->
                         </v-list-tile-content>
 
                     </v-list-tile>

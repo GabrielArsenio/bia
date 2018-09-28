@@ -20,8 +20,8 @@
                     <v-list-tile avatar :key="processo._id">
 
                         <v-list-tile-content>
-                            <v-list-tile-title>{{ processo.descricao }}</v-list-tile-title>
-                            <v-list-tile-sub-title>{{ processo.tolerancia }}</v-list-tile-sub-title>
+                            <v-list-tile-title>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ processo.descricao }} - {{ processo.tolerancia }}</v-list-tile-title>
+                            <!-- <v-list-tile-sub-title>{{ processo.tolerancia }}</v-list-tile-sub-title> -->
                         </v-list-tile-content>
 
                     </v-list-tile>

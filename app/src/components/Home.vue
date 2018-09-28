@@ -14,6 +14,8 @@
 
                 <v-divider></v-divider>
 
+                <v-subheader>Cadastros</v-subheader>
+
                 <v-list-tile :to="{ path: '/usuarios' }">
                     <v-list-tile-action>
                         <v-icon>person</v-icon>
@@ -60,6 +62,8 @@
                 </v-list-tile>
 
                 <v-divider></v-divider>
+
+                <v-subheader>Consultas</v-subheader>
 
                 <v-list-tile :to="{ path: '/processos-por-nivel-criticidade' }">
                     <v-list-tile-action>

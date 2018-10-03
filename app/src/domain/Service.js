@@ -4,9 +4,9 @@ export class Service {
         this._resource = resource;
     }
 
-    findAll() {
+    findAll(queryParams = {}) {
         return this._resource
-            .query()
+            .query(queryParams)
             .then(res => res.json(), err => {
                 console.log(err);
                 throw new Error('Não foi possível listar.');

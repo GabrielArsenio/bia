@@ -11,6 +11,12 @@ const ameacasModel = mongoose.model('ameacas', ameacasSchema);
 const processosSchema = require('../models/processos');
 const processosModel = mongoose.model('processos', processosSchema);
 
+const eventosSchema = require('../models/eventos');
+const eventosModel = mongoose.model('eventos', eventosSchema);
+
+const acoesSchema = require('../models/acoes');
+const acoesModel = mongoose.model('acoes', acoesSchema);
+
 router.get('/processos-por-nivel', (req, res, next) => {
     niveisModel.aggregate([{
         $lookup: {
@@ -46,6 +52,35 @@ router.get('/ameacas-aos-processos', (req, res, next) => {
             .populate('nivel')
             .exec();
     });
+});
+
+router.get('/eventos-por-data', (req, res, next) => {
+    const queryParams = {};
+
+    if (req.query.dataInicial) {
+        queryParams.data = {}
+        queryParams.data['$gte'] = req.query.dataInicial
+    }
+
+    if (req.query.dataFinal) {
+        if (!queryParams.data) {
+            queryParams.data = {}
+        }
+        queryParams.data['$lte'] = req.query.dataFinal
+    }
+
+    eventosModel.find(queryParams, (err, eventos) => {
+        res.send(eventos);
+    })
+    .populate({
+        path: 'acao',
+        populate: [{ 
+            path: 'processo'
+        }, {
+            path: 'ameaca'
+        }]
+    })
+    .exec();
 });
 
 module.exports = router;

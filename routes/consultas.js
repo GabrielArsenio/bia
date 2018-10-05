@@ -75,7 +75,8 @@ router.get('/eventos-por-data', (req, res, next) => {
     .populate({
         path: 'acao',
         populate: [{ 
-            path: 'processo'
+            path: 'processo',
+            populate: { path: 'nivel' }
         }, {
             path: 'ameaca'
         }]

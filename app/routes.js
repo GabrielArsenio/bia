@@ -10,6 +10,7 @@ import ProcessosPorNivel from './src/components/listas/ProcessosPorNivel.vue';
 import AmeacasAosProcessos from './src/components/listas/AmeacasAosProcessos.vue';
 import EventosPorData from './src/components/listas/EventosPorData.vue';
 import EventosPorAmeaca from './src/components/listas/EventosPorAmeaca.vue';
+import EventosPorProcesso from './src/components/listas/EventosPorProcesso.vue';
 
 export const routes = [{
     path: '/login',
@@ -46,5 +47,8 @@ export const routes = [{
     }, {
         path: '/eventos-por-ameaca',
         component: EventosPorAmeaca
+    }, {
+        path: '/eventos-por-processo',
+        component: EventosPorProcesso
     }]
 }];

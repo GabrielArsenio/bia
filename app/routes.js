@@ -9,6 +9,7 @@ import Acoes from './src/components/listas/Acoes.vue';
 import ProcessosPorNivel from './src/components/listas/ProcessosPorNivel.vue';
 import AmeacasAosProcessos from './src/components/listas/AmeacasAosProcessos.vue';
 import EventosPorData from './src/components/listas/EventosPorData.vue';
+import EventosPorAmeaca from './src/components/listas/EventosPorAmeaca.vue';
 
 export const routes = [{
     path: '/login',
@@ -42,5 +43,8 @@ export const routes = [{
     }, {
         path: '/eventos-por-data',
         component: EventosPorData
+    }, {
+        path: '/eventos-por-ameaca',
+        component: EventosPorAmeaca
     }]
 }];

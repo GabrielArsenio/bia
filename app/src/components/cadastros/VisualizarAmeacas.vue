@@ -75,10 +75,7 @@
                 this.service
                     .findAll()
                     .then(items => {
-                        this.acoes = items.filter(item => {
-                            console.log(item.processo._id === this.tempDocument._id)
-                            return item.processo._id === this.tempDocument._id
-                        })
+                        this.acoes = items.filter(item => item.processo._id === this.tempDocument._id)
                     });
             }
         }

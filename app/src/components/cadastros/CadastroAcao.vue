@@ -101,12 +101,12 @@
                     .then((res) => {
                         let selectedProcesso = this.processos.find(processo => processo._id === this.tempDocument.processo);
                         this.tempDocument.processo = selectedProcesso;
-console.log(this.tempDocument.processo)
+
                         let selectedAmeaca = this.ameacas.find(ameaca => ameaca._id === this.tempDocument.ameaca);
                         this.tempDocument.ameaca = selectedAmeaca;
 
                         this.$emit('save', res.body || this.tempDocument)
-                    }, err => console.log(err))
+                    })
             },
             getProcessos() {
                 new Service(this.$resource('api/processos{/id}'))

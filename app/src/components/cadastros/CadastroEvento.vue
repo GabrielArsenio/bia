@@ -198,9 +198,7 @@
 
                 new Service(this.$resource('api/eventos{/id}'))
                     .save(this.tempDocument)
-                    .then((res) => {
-                        this.$emit('save', res.body || this.tempDocument)
-                    }, err => console.log(err))
+                    .then(res => this.$emit('save', res.body || this.tempDocument))
             }
         }
     }

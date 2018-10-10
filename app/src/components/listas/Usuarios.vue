@@ -110,7 +110,7 @@
                         this.items.splice(indice, 1);
                         this.alertRemoved = true;
                         this.documentRemoving = false;
-                    }, err => console.log(err));
+                    });
             }
         }
     }

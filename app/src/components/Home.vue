@@ -1,3 +1,4 @@
+import favicon-256 from '../../favicon-256.png';
 <template>
     <v-app>
         <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.mdAndUp" app v-model="drawer">
@@ -145,11 +146,18 @@
                 <v-icon>notifications</v-icon>
             </v-btn>
 
-            <v-btn icon large>
-                <v-avatar size="32px" tile>
-                    <!-- <img src="" alt="Usuário"> -->
-                </v-avatar>
-            </v-btn>
+
+            <v-menu bottom left>
+                <v-btn icon large dark slot="activator">
+                    <v-avatar size="32px" tile>
+                        <img src="../../avatar.png" alt="Usuário">
+                    </v-avatar>
+                </v-btn>
+
+                <v-list>
+                    <v-list-tile @click="sair">Sair</v-list-tile>
+                </v-list>
+            </v-menu>
         </v-toolbar>
 
         <v-content>
@@ -164,6 +172,12 @@
         data() {
             return {
                 drawer: null
+            }
+        },
+        methods: {
+            sair() {
+                localStorage.clear()                
+                this.$router.push({ name: 'login' })
             }
         }
     }

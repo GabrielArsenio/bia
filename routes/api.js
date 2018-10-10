@@ -33,7 +33,7 @@ router.get('/:resource', (req, res, next) => {
             res.send(doc);
         })
         .populate(getPopulateList(req.params.resource))
-        .exec(() => { console.log(arguments) });
+        .exec(() => {});
 });
 
 router.get('/:resource/:id', (req, res, next) => {
@@ -70,7 +70,9 @@ router.post('/:resource', (req, res, next) => {
         .then(() => {
             model.create(req.body, (err, docs) => {
                 if (docs) {
-                    res.status(201).send(docs);
+                    model.populate(docs, getPopulateList(req.params.resource), (err, doc) => {
+                        res.status(201).send(doc);
+                    })
                 } else {
                     res.status(400).json(err);
                 }

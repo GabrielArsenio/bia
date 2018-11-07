@@ -21,6 +21,7 @@ export const routes = [{
     path: '',
     name: 'home',
     component: Home,
+    redirect: '/mapa-riscos',
     children: [{
         path: '/ameacas',
         component: Ameacas

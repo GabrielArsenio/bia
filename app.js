@@ -1,4 +1,4 @@
-console.log('========================= BIA =========================')
+console.log('========================= BIA =========================');
 
 const express = require('express');
 const logger = require('morgan');

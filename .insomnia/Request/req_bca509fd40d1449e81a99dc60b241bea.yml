@@ -1,0 +1,31 @@
+_id: req_bca509fd40d1449e81a99dc60b241bea
+type: Request
+parentId: fld_c1039bf50b6f48aeb2769a9682c25eb3
+modified: 1527094540482
+created: 1527093247562
+url: "{{ baseUrl  }}/processos"
+name: save
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"descricao": "Despache de bagagem",
+    	"_niveisId": "5b059be7557b442a4c3e1cb6",
+    	"tolerancia": "Enquanto houver mais de 3 funcionários"
+    }
+parameters: []
+headers:
+  - id: pair_d155bdb692804f1d8eb20f8a91ecdb72
+    name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1527089284411.25
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,32 @@
+_id: req_cb7d539295d54241b221b94d9de556c2
+type: Request
+parentId: fld_9f8c7a6074e54bbeb26579a3a2e4c416
+modified: 1654605840814
+created: 1654605652533
+url: "{{ baseUrl  }}/eventos"
+name: save
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"sequencial": 2,
+    	"_acoesId": "5b05a02870b6d51b64511435",
+    	"dataHora": "2018-01-01 01:05:54",
+    	"descricao": "Aconteceu um negócio lá"
+    }
+parameters: []
+headers:
+  - id: pair_d155bdb692804f1d8eb20f8a91ecdb72
+    name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1527093634433
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

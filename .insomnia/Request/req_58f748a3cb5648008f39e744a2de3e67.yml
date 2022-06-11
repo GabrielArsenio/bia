@@ -1,0 +1,30 @@
+_id: req_58f748a3cb5648008f39e744a2de3e67
+type: Request
+parentId: fld_dab7c104d77640df9c1543e372884e9a
+modified: 1527093029694
+created: 1527079376732
+url: "{{ baseUrl  }}/ameacas/5b05644ace32c025dcc99457"
+name: update
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    { 
+        "_id" : "5b05644ace32c025dcc99457", 
+        "descricaoo" : "zzzzzzzzzzz"
+    }
+parameters: []
+headers:
+  - id: pair_5e834d3fbc174a57a21d6b58d2168585
+    name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1527085469825.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

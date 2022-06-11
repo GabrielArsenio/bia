@@ -26,7 +26,7 @@
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.6.0",
     "debug": "~4.3.4",
-    "express": "^4.17.3",
+    "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.14",
     "morgan": "~1.10.0",

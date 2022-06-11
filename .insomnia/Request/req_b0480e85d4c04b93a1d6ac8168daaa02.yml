@@ -1,0 +1,31 @@
+_id: req_b0480e85d4c04b93a1d6ac8168daaa02
+type: Request
+parentId: fld_b6eb6f20074d436e8f959ac7d3678bfe
+modified: 1654604229206
+created: 1654603009321
+url: "{{ baseUrl  }}/usuarios"
+name: save
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"nome": "Usuário Test",
+    	"login": "user",
+    	"senha": "123456"
+    }
+parameters: []
+headers:
+  - id: pair_d155bdb692804f1d8eb20f8a91ecdb72
+    name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1527093634433
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

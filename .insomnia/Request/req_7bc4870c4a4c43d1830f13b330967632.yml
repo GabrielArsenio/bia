@@ -1,0 +1,32 @@
+_id: req_7bc4870c4a4c43d1830f13b330967632
+type: Request
+parentId: fld_b94a0a3e283141928810d13bc0a40d47
+modified: 1527095304303
+created: 1527095117980
+url: "{{ baseUrl  }}/acoes"
+name: save
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"sequencial": 2,
+    	"_processosId": "5b059cefc976602aa8d413bc",
+    	"_ameacasId": "5b0597385eafa91ebcec6452",
+    	"procedimento": "Rezar"
+    }
+parameters: []
+headers:
+  - id: pair_d155bdb692804f1d8eb20f8a91ecdb72
+    name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1527094169969
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,21 @@
+_id: req_390c5457fca2449993ce4681d79cebed
+type: Request
+parentId: fld_dab7c104d77640df9c1543e372884e9a
+modified: 1527093025159
+created: 1527077928023
+url: "{{ baseUrl  }}/ameacas/5b056c1c5d5ab61cd431bfa4"
+name: delete
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1527085469875.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

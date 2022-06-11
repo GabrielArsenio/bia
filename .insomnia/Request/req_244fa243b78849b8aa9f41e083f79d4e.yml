@@ -1,0 +1,26 @@
+_id: req_244fa243b78849b8aa9f41e083f79d4e
+type: Request
+parentId: fld_b6eb6f20074d436e8f959ac7d3678bfe
+modified: 1654988307093
+created: 1654604161731
+url: "{{ baseUrl  }}/usuarios"
+name: findAll
+description: ""
+method: GET
+body: {}
+parameters: []
+headers:
+  - id: pair_f3d7c2be997e4fa18d9413a62e7ccd83
+    name: x-access-token
+    value: "{% response 'header', 'req_3ac377d5842c4687ad3b405319f1d250',
+      'b64::eC1hY2Nlc3MtdG9rZW4=::46b', 'always', 60 %}"
+    description: ""
+authentication: {}
+metaSortKey: -1527093366665
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,29 @@
+_id: req_1e4a5cb33f3e4b93b8e7bb3eb69514d9
+type: Request
+parentId: fld_cc0d7c6fefbf4824874ed2992005694c
+modified: 1654602505355
+created: 1527093106954
+url: "{{ baseUrl  }}/niveis"
+name: save
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"descricao": "Alto"
+    }
+parameters: []
+headers:
+  - id: pair_d155bdb692804f1d8eb20f8a91ecdb72
+    name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1527093098897
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

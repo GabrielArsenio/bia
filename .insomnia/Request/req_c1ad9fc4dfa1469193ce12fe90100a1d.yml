@@ -1,0 +1,29 @@
+_id: req_c1ad9fc4dfa1469193ce12fe90100a1d
+type: Request
+parentId: fld_dab7c104d77640df9c1543e372884e9a
+modified: 1527093048027
+created: 1526994132195
+url: "{{ baseUrl  }}/ameacas"
+name: save
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"descricao": "Vento"
+    }
+parameters: []
+headers:
+  - id: pair_d155bdb692804f1d8eb20f8a91ecdb72
+    name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1527085469925.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

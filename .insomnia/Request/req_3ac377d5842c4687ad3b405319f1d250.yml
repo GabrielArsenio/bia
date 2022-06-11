@@ -1,0 +1,30 @@
+_id: req_3ac377d5842c4687ad3b405319f1d250
+type: Request
+parentId: fld_1869e29495e84d4b91ef6a33428740ad
+modified: 1654605842116
+created: 1527095522352
+url: "{{ baseUrlAuth }}"
+name: login
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"login": "user",
+    	"senha": "123456"
+    }
+parameters: []
+headers:
+  - id: pair_d155bdb692804f1d8eb20f8a91ecdb72
+    name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1527093634483
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

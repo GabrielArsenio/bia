@@ -1,0 +1,16 @@
+_id: env_ae1f5a30277a42319bca36563dd92584
+type: Environment
+parentId: env_c33ed4c6f31d4d7985e8b4b29b7de9a7
+modified: 1654605744644
+created: 1526994079122
+name: DEV
+data:
+  baseUrl: http://localhost:3000/api
+  baseUrlAuth: http://localhost:3000/auth
+dataPropertyOrder:
+  "&":
+    - baseUrl
+    - baseUrlAuth
+color: "#00ff40"
+isPrivate: false
+metaSortKey: 1654602473559

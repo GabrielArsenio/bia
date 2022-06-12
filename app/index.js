@@ -37,5 +37,6 @@ Vue.http.interceptors.push((request, next) => {
 new Vue({
     el: '#app',
     router,
+    vuetify: new Vuetify(),
     render: h => h(App)
 });

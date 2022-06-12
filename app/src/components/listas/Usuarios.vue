@@ -8,7 +8,7 @@
 
         <v-btn slot="activator" color="primary" dark class="mb-2" @click.stop="create">Novo</v-btn>
 
-        <v-data-table hide-actions fix-header :headers="headers" :items="items" :search="search">
+        <v-data-table hide-default-footer fix-header :headers="headers" :items="items" :search="search">
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.nome }}</td>
                 <td>{{ props.item.login }}</td>
@@ -29,12 +29,12 @@
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
             Registro salvo com sucesso!
-            <v-btn flat color="white" @click.native="alertSaved = false">Fechar</v-btn>
+            <v-btn text color="white" @click.native="alertSaved = false">Fechar</v-btn>
         </v-snackbar>
 
         <v-snackbar :timeout="6000" :bottom="true" v-model="alertRemoved">
             Registro removido com sucesso!
-            <v-btn flat color="pink" @click.native="alertRemoved = false">Fechar</v-btn>
+            <v-btn text color="pink" @click.native="alertRemoved = false">Fechar</v-btn>
         </v-snackbar>
     </div>
 </template>

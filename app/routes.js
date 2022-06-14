@@ -1,4 +1,4 @@
-import Home from './src/components/Home.vue';
+import App from './src/App';
 import Login from './src/components/Login.vue';
 import Usuarios from './src/components/listas/Usuarios.vue';
 import Ameacas from './src/components/listas/Ameacas.vue';
@@ -19,9 +19,9 @@ export const routes = [{
     component: Login
 }, {
     path: '',
-    name: 'home',
-    component: Home,
-    redirect: '/mapa-riscos',
+    name: 'app',
+    component: App,
+    // redirect: '/mapa-riscos',
     children: [{
         path: '/ameacas',
         component: Ameacas

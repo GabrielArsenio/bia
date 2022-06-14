@@ -42,7 +42,7 @@ export default {
   methods: {
     entrar() {
       new AuthService(this.$http).login(this.document).then(err => {
-        this.$router.push({ name: "home" });
+        this.$router.push({ name: "app" });
       }).catch((err) => {console.log(err)});
     }
   }

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-navigation-drawer fixed app>
+  <v-app>
+    <v-navigation-drawer fixed app v-if="false">
       <!-- <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.mdAndUp" app v-model="drawer"> -->
       <v-list dense>
 
@@ -123,7 +123,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar color="blue darken-3" elevation="4" dark fixed>
+    <v-app-bar app>
 
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
@@ -140,27 +140,35 @@
         <v-icon>notifications</v-icon>
       </v-btn>
 
-      <v-menu bottom left>
-        <!-- <v-btn icon large dark slot="activator">
-                    <v-avatar size="32px" tile>
-                        <img src="../../avatar.png" alt="Usuário">
-                    </v-avatar>
-                </v-btn> -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-on="on" v-bind="attrs">
+            <v-avatar size="32px" tile>
+              <img src="../avatar.png" alt="Usuário">
+            </v-avatar>
+          </v-btn>
+        </template>
 
         <v-list>
-          <!-- <v-list-item @click="sair">Sair</v-list-item> -->
+          <v-list-item @click="sair">Sair</v-list-item>
         </v-list>
       </v-menu>
-    </v-toolbar>
+    </v-app-bar>
 
     <v-main>
       <!-- <router-view></router-view> -->
     </v-main>
-  </div>
+  </v-app>
 </template>
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  methods: {
+    sair() {
+      localStorage.clear()
+      this.$router.push({ name: 'login' })
+    }
+  }
 };
 </script>

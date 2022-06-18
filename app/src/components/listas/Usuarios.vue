@@ -10,17 +10,13 @@
         <v-btn slot="activator" color="primary" dark class="mb-2" @click.stop="create">Novo</v-btn>
 
         <v-data-table hide-default-footer fix-header :headers="headers" :items="items" :search="search">
-            <template slot="items" slot-scope="props">
-                <td>{{ props.item.nome }}</td>
-                <td>{{ props.item.login }}</td>
-                <td class="text-xs-right">
-                    <v-btn icon class="mx-0" @click="edit(props.item)">
-                        <v-icon color="teal">edit</v-icon>
-                    </v-btn>
-                    <v-btn icon class="mx-0" @click="remove(props.item)">
-                        <v-icon color="pink">delete</v-icon>
-                    </v-btn>
-                </td>
+            <template v-slot:item.actions="{ item }">
+                <v-icon small class="mr-2" @click="edit(item)">
+                    edit
+                </v-icon>
+                <v-icon small @click="remove(item)">
+                    delete
+                </v-icon>
             </template>
         </v-data-table>
 
@@ -62,7 +58,7 @@ export default {
             headers: [
                 { text: 'Nome', value: 'nome' },
                 { text: 'Login', value: 'login' },
-                { text: 'Ações', value: 'descricao', sortable: false, align: 'right' }
+                { text: 'Ações', value: 'actions', sortable: false, align: 'right' }
             ],
             items: []
         }

@@ -5,8 +5,8 @@
                 Confirmar exclusão?
             </v-card-title>
             <v-card-actions>
-                <v-btn flat @click="cancel()">Cancelar</v-btn>
-                <v-btn flat color="error" @click="remove()">Excluir</v-btn>
+                <v-btn @click="cancel()">Cancelar</v-btn>
+                <v-btn color="error" @click="remove()">Excluir</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer fixed app v-if="false">
-      <!-- <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.mdAndUp" app v-model="drawer"> -->
+    <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.mdAndUp" fixed app>
       <v-list dense>
 
         <v-list-item :to="{ path: '/' }">
@@ -125,7 +124,7 @@
 
     <v-app-bar app>
 
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>BIA</v-toolbar-title>
 
@@ -164,6 +163,11 @@
 <script>
 export default {
   name: "Home",
+  data() {
+    return {
+      drawer: false
+    }
+  },
   methods: {
     logout() {
       localStorage.clear()

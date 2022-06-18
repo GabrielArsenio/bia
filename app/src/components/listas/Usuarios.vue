@@ -7,7 +7,7 @@
             </v-text-field>
         </v-card-title>
 
-        <v-btn slot="activator" color="primary" dark class="mb-2" @click.stop="create">Novo</v-btn>
+        <CadastroUsuario :document="document" @cancel="document = false" @save="onSave"></CadastroUsuario>
 
         <v-data-table hide-default-footer fix-header :headers="headers" :items="items" :search="search">
             <template v-slot:item.actions="{ item }">
@@ -19,8 +19,6 @@
                 </v-icon>
             </template>
         </v-data-table>
-
-        <CadastroUsuario :document="document" @cancel="document = false" @save="onSave"></CadastroUsuario>
 
         <DialogConfirmRemove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove">
         </DialogConfirmRemove>
@@ -50,6 +48,7 @@ export default {
     },
     data() {
         return {
+            dialog: false,
             alertSaved: false,
             alertRemoved: false,
             document: false,

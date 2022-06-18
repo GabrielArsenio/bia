@@ -7,16 +7,16 @@
         </template>
         <v-card>
             <v-card-title class="grey lighten-4 py-4 title">
-                {{ tempDocument._id ? 'Editar' : 'Novo' }} nível de criticidade
+                {{ form._id ? 'Editar' : 'Novo' }} nível de criticidade
             </v-card-title>
             <v-container grid-list-sm class="pa-4">
                 <v-layout row wrap>
                     <v-flex xs3>
-                        <v-text-field v-model="tempDocument._id" disabled label="Código"></v-text-field>
+                        <v-text-field v-model="form._id" disabled label="Código"></v-text-field>
                     </v-flex>
 
                     <v-flex xs12>
-                        <v-text-field v-model="tempDocument.descricao" label="Descrição"></v-text-field>
+                        <v-text-field v-model="form.descricao" label="Descrição"></v-text-field>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -31,41 +31,17 @@
 
 <script>
 import { Service } from '../../domain/Service'
+import CrudFormMixin from '../../mixins/crud-form.mixin';
 
 export default {
+    mixins: [CrudFormMixin],
     props: {
         document: {
             required: true
         }
     },
-    data() {
-        return {
-            isOpen: false,
-            tempDocument: {}
-        }
-    },
-    watch: {
-        document: function (newVal, oldVal) {
-            if (!this.document) {
-                this.isOpen = false;
-            }
-            if (typeof this.document === 'object') {
-                this.isOpen = true
-                this.tempDocument = Object.assign({}, this.document)
-            }
-        }
-    },
-    methods: {
-        cancel() {
-            this.$emit('cancel')
-            this.isOpen = false;
-        },
-        save() {
-            new Service(this.$resource('api/niveis{/id}'))
-                .save(this.tempDocument)
-                .then(res => this.$emit('save', res.body || this.tempDocument))
-            this.isOpen = false;
-        }
+    created() {
+        this.service = new Service(this.$resource('api/niveis{/id}'))
     }
 }
 </script>

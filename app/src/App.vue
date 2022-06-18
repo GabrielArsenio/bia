@@ -150,7 +150,7 @@
         </template>
 
         <v-list>
-          <v-list-item @click="sair">Sair</v-list-item>
+          <v-list-item @click="logout">Sair</v-list-item>
         </v-list>
       </v-menu>
     </v-app-bar>
@@ -165,7 +165,7 @@
 export default {
   name: "App",
   methods: {
-    sair() {
+    logout() {
       localStorage.clear()
       this.$router.push({ name: 'login' })
     }

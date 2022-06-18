@@ -13,29 +13,34 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            active: {
-                required: true
-            }
+export default {
+    props: {
+        active: {
+            required: true
+        }
+    },
+    data() {
+        return {
+            isOpen: false
+        }
+    },
+    methods: {
+        cancel() {
+            this.$emit('cancel')
         },
-        data() {
-            return {
-                isOpen: false
-            }
+        remove() {
+            this.$emit('remove')
+        }
+    },
+    watch: {
+        active: function (newVal, oldVal) {
+            this.isOpen = !!newVal
         },
-        methods: {
-            cancel() {
-                this.$emit('cancel')
-            },
-            remove() {
-                this.$emit('remove')
-            }
-        },
-        watch: {
-            active: function (newVal, oldVal) {
-                this.isOpen = !!newVal
+        isOpen(newVal) {
+            if (!newVal) {
+                this.cancel()
             }
         }
     }
+}
 </script>

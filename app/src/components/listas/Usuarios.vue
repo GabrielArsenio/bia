@@ -9,7 +9,7 @@
                     <v-text-field v-model="search" append-icon="search" label="Pesquisar" single-line hide-details>
                     </v-text-field>
                     <v-spacer></v-spacer>
-                    <CadastroUsuario :document="document" @cancel="document = false" @save="onSave"></CadastroUsuario>
+                    <CadastroUsuario :document="itemEditing" @cancel="itemEditing = null" @save="onSave"></CadastroUsuario>
                 </v-toolbar>
             </template>
 
@@ -24,81 +24,35 @@
 
         </v-data-table>
 
-        <DialogConfirmRemove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove">
+        <DialogConfirmRemove :active="itemRemoving" @cancel="itemRemoving = null" @remove="onRemove">
         </DialogConfirmRemove>
     </v-container>
 </template>
 
 <script>
 import { Service } from '../../domain/Service'
-import DialogConfirmRemove from '../shared/DialogConfirmRemove'
+import DialogConfirmRemove from '../shared/DialogConfirmRemove.vue'
 import CadastroUsuario from '../cadastros/CadastroUsuario'
+import CrudListMixin from '../../mixins/crud-list.mixin'
 
 export default {
     name: 'Usuarios',
+    mixins: [CrudListMixin],
     components: {
         DialogConfirmRemove,
         CadastroUsuario
     },
     data() {
         return {
-            dialog: false,
-            document: false,
-            documentRemoving: false,
-            search: '',
             headers: [
                 { text: 'Nome', value: 'nome' },
                 { text: 'Login', value: 'login' },
                 { text: 'Ações', value: 'actions', sortable: false, align: 'right' }
-            ],
-            items: []
+            ]
         }
     },
     created() {
         this.service = new Service(this.$resource('api/usuarios{/id}'));
-
-        this.service
-            .findAll()
-            .then(items => this.items = items);
-    },
-    methods: {
-        create() {
-            if (this.document) {
-                this.document = false
-            }
-            this.document = {}
-        },
-        edit(document) {
-            if (this.document) {
-                this.document = false
-            }
-            this.document = document
-        },
-        remove(document) {
-            if (this.documentRemoving) {
-                this.documentRemoving = false
-            }
-            this.documentRemoving = document
-        },
-        onSave(newDocument) {
-            if (!this.document._id) {
-                this.items.push(newDocument)
-            } else {
-                let indice = this.items.indexOf(this.document)
-                this.items.splice(indice, 1)
-                this.items.push(newDocument)
-            }
-            this.document = false
-        },
-        onRemove() {
-            this.service
-                .remove(this.documentRemoving._id)
-                .then(() => {
-                    let indice = this.items.indexOf(this.documentRemoving);
-                    this.items.splice(indice, 1);
-                    this.documentRemoving = false;
-                });
-        }
     }
 }
 </script>

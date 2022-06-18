@@ -65,11 +65,18 @@ export default {
     document: function (newVal, oldVal) {
       if (!this.document) {
         this.isOpen = false;
+        this.tempDocument = { senha: '' };
+        return;
       }
 
       if (typeof this.document === "object") {
         this.isOpen = true;
         this.tempDocument = Object.assign({}, this.document);
+      }
+    },
+    isOpen(newVal) {
+      if (!newVal) {
+        this.cancel()
       }
     }
   },
@@ -77,6 +84,7 @@ export default {
     cancel() {
       this.$emit("cancel");
       this.isOpen = false;
+      this.tempDocument = {}
     },
     async save() {
       const res = await new Service(this.$resource("api/usuarios{/id}")).save(this.tempDocument)

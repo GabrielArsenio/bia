@@ -1,15 +1,18 @@
 <template>
     <v-container fluid>
-        <v-card-title>
-            Usuários
-            <v-spacer></v-spacer>
-            <v-text-field v-model="search" append-icon="search" label="Pesquisar usuários" single-line hide-details>
-            </v-text-field>
-        </v-card-title>
-
-        <CadastroUsuario :document="document" @cancel="document = false" @save="onSave"></CadastroUsuario>
 
         <v-data-table hide-default-footer fix-header :headers="headers" :items="items" :search="search">
+            <template v-slot:top>
+                <v-toolbar flat>
+                    <v-toolbar-title>Usuários</v-toolbar-title>
+                    <v-divider class="mx-4" inset vertical></v-divider>
+                    <v-text-field v-model="search" append-icon="search" label="Pesquisar" single-line hide-details>
+                    </v-text-field>
+                    <v-spacer></v-spacer>
+                    <CadastroUsuario :document="document" @cancel="document = false" @save="onSave"></CadastroUsuario>
+                </v-toolbar>
+            </template>
+
             <template v-slot:item.actions="{ item }">
                 <v-icon small class="mr-2" @click="edit(item)">
                     edit
@@ -18,20 +21,11 @@
                     delete
                 </v-icon>
             </template>
+
         </v-data-table>
 
         <DialogConfirmRemove :active="documentRemoving" @cancel="documentRemoving = false" @remove="onRemove">
         </DialogConfirmRemove>
-
-        <v-snackbar :timeout="6000" :bottom="true" v-model="alertSaved">
-            Registro salvo com sucesso!
-            <v-btn text color="white" @click.native="alertSaved = false">Fechar</v-btn>
-        </v-snackbar>
-
-        <v-snackbar :timeout="6000" :bottom="true" v-model="alertRemoved">
-            Registro removido com sucesso!
-            <v-btn text color="pink" @click.native="alertRemoved = false">Fechar</v-btn>
-        </v-snackbar>
     </v-container>
 </template>
 
@@ -49,8 +43,6 @@ export default {
     data() {
         return {
             dialog: false,
-            alertSaved: false,
-            alertRemoved: false,
             document: false,
             documentRemoving: false,
             search: '',
@@ -89,7 +81,6 @@ export default {
             this.documentRemoving = document
         },
         onSave(newDocument) {
-            this.alertSaved = true
             if (!this.document._id) {
                 this.items.push(newDocument)
             } else {
@@ -105,7 +96,6 @@ export default {
                 .then(() => {
                     let indice = this.items.indexOf(this.documentRemoving);
                     this.items.splice(indice, 1);
-                    this.alertRemoved = true;
                     this.documentRemoving = false;
                 });
         }

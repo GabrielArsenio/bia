@@ -1,55 +1,47 @@
 <template>
-    <div>
+    <v-container fluid>
         <v-toolbar flat color="white">
             <v-toolbar-title>Processos segundo o nível de criticidade</v-toolbar-title>
         </v-toolbar>
 
-        <v-list two-line subheader>
-            <template v-for="(item, index) in items">
+        <v-list two-line subheader v-for="(item, index) in items" :key="index">
 
-                <v-divider :key="index"></v-divider>
+            <v-divider></v-divider>
 
-                <v-subheader
-                    v-if="item.descricao"
-                    :key="item._id"
-                >
-                    {{ item.descricao }}
-                </v-subheader>
+            <v-subheader v-if="item.descricao" :key="item._id">
+                {{ item.descricao }}
+            </v-subheader>
 
-                <template v-for="(processo) in item.processos">
-                    <v-list-tile avatar :key="processo._id">
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ processo.descricao }} - {{ processo.tolerancia }}</v-list-tile-title>
-                            <!-- <v-list-tile-sub-title>{{ processo.tolerancia }}</v-list-tile-sub-title> -->
-                        </v-list-tile-content>
-
-                    </v-list-tile>
-                </template>
-
-            </template>
+            <v-list-item v-for="(processo) in item.processos" :key="processo._id">
+                <v-list-item-content>
+                    <v-list-item-title>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ processo.descricao }} - {{
+                            processo.tolerancia
+                    }}</v-list-item-title>
+                    <!-- <v-list-item-sub-title>{{ processo.tolerancia }}</v-list-item-sub-title> -->
+                </v-list-item-content>
+            </v-list-item>
 
         </v-list>
-    </div>
+    </v-container>
 </template>
 
 <script>
-    import { Service } from '../../domain/Service'
+import { Service } from '../../domain/Service'
 
-    export default {
-        name: 'ProcessosPorNivel',
-        data() {
-            return {
-                search: '',
-                items: []
-            }
-        },
-        created() {
-            this.service = new Service(this.$resource('api/processos-por-nivel{/id}'));
-
-            this.service
-                .findAll()
-                .then(items => this.items = items);
+export default {
+    name: 'ProcessosPorNivel',
+    data() {
+        return {
+            search: '',
+            items: []
         }
+    },
+    created() {
+        this.service = new Service(this.$resource('api/processos-por-nivel{/id}'));
+
+        this.service
+            .findAll()
+            .then(items => this.items = items);
     }
+}
 </script>

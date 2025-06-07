@@ -25,78 +25,120 @@ router.param('resource', (req, res, next) => {
     next();
 });
 
-router.get('/:resource', (req, res, next) => {
-    const model = createModel(req.params.resource);
-
-    model
-        .find(null, (err, doc) => {
-            res.send(doc);
-        })
-        .populate(getPopulateList(req.params.resource))
-        .exec(() => {});
+router.get('/:resource', async (req, res, next) => {
+    try {
+        const model = createModel(req.params.resource);
+        const populateList = getPopulateList(req.params.resource);
+        // Using model.find() with no arguments to fetch all documents, then populate
+        const docs = await model.find().populate(populateList);
+        res.send(docs);
+    } catch (err) {
+        console.error("Error in GET /:resource :", err);
+        // Consider using next(err) for a centralized error handler
+        res.status(500).json({ message: err.message, error: err });
+    }
 });
 
-router.get('/:resource/:id', (req, res, next) => {
-    const model = createModel(req.params.resource);
+router.get('/:resource/:id', async (req, res, next) => {
+    try {
+        const model = createModel(req.params.resource);
+        const populateList = getPopulateList(req.params.resource);
+        const doc = await model.findById(req.params.id).populate(populateList);
 
-    model
-        .findById(req.params.id, (err, doc) => {
-            if (doc) {
-                res.send(doc.toJSON());
-            } else {
-                res.sendStatus(404);
-            }
-        })
-        .populate(getPopulateList(req.params.resource))
-        .exec(() => { console.log(arguments) });
+        if (doc) {
+            res.send(doc.toJSON()); // .toJSON() is fine
+        } else {
+            res.sendStatus(404);
+        }
+    } catch (err) {
+        console.error(`Error in GET /:resource/${req.params.id} :`, err);
+        if (err.name === 'CastError') {
+            return res.status(400).json({ message: 'Invalid ID format', error: err });
+        }
+        // Consider using next(err) for a centralized error handler
+        res.status(500).json({ message: err.message, error: err });
+    }
 });
 
-router.post('/:resource', (req, res, next) => {
+router.post('/:resource', async (req, res, next) => {
     const model = createModel(req.params.resource);
-    const documents = [].concat(req.body)
+    const requestBody = req.body; // Can be single object or array
 
-    new Promise(
-        (resolve, reject) => {
-            for (const doc of documents) {
-                const err = new model(doc).validateSync()
-                if (err) {
-                    reject(err);
-                    return;
-                }
+    try {
+        // Optional: Synchronous pre-validation (Mongoose's create will also validate)
+        const docsToValidate = Array.isArray(requestBody) ? requestBody : [requestBody];
+        for (const doc of docsToValidate) {
+            const validationError = new model(doc).validateSync();
+            if (validationError) {
+                // Send 400 with validation error details
+                return res.status(400).json(validationError);
             }
+        }
 
-            resolve();
-        })
-        .then(() => {
-            model.create(req.body, (err, docs) => {
-                if (docs) {
-                    model.populate(docs, getPopulateList(req.params.resource), (err, doc) => {
-                        res.status(201).send(doc);
-                    })
-                } else {
-                    res.status(400).json(err);
-                }
-            });
-        })
-        .catch((err) => {
-            res.status(400).json(err);
+        // Mongoose create can handle single object or array of objects
+        let createdDocs = await model.create(requestBody);
+
+        // Populate the created document(s)
+        const populateList = getPopulateList(req.params.resource);
+        // model.populate can take a single doc or an array.
+        // If populateList is an array of strings (paths), Mongoose should handle it.
+        createdDocs = await model.populate(createdDocs, populateList);
+
+        res.status(201).send(createdDocs);
+
+    } catch (err) {
+        console.error(`Error in POST /:resource :`, err);
+        // Mongoose validation errors (from create) have name: 'ValidationError'
+        if (err.name === 'ValidationError') {
+            return res.status(400).json(err);
+        }
+        // Other errors (e.g., database connection, unexpected issues)
+        res.status(500).json({ message: err.message, error: err });
+    }
+});
+
+router.put('/:resource/:id', async (req, res, next) => {
+    try {
+        const model = createModel(req.params.resource);
+        const updatedDoc = await model.findByIdAndUpdate(req.params.id, req.body, {
+            new: true, // Returns the modified document
+            runValidators: true // Ensures schema validation is run on update
         });
+
+        if (updatedDoc) {
+            res.sendStatus(204); // Successful update, no content
+        } else {
+            res.sendStatus(404); // Document not found
+        }
+    } catch (err) {
+        console.error(`Error in PUT /:resource/${req.params.id} :`, err);
+        if (err.name === 'CastError') {
+            return res.status(400).json({ message: 'Invalid ID format', error: err });
+        }
+        if (err.name === 'ValidationError') {
+            return res.status(400).json(err);
+        }
+        res.status(500).json({ message: err.message, error: err });
+    }
 });
 
-router.put('/:resource/:id', (req, res, next) => {
-    const model = createModel(req.params.resource);
+router.delete('/:resource/:id', async (req, res, next) => {
+    try {
+        const model = createModel(req.params.resource);
+        const deletedDoc = await model.findByIdAndDelete(req.params.id);
 
-    model.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
-        res.sendStatus(doc ? 204 : 404);
-    });
-});
-
-router.delete('/:resource/:id', (req, res, next) => {
-    const model = createModel(req.params.resource);
-
-    model.findByIdAndDelete(req.params.id, (err, doc) => {
-        res.sendStatus(doc ? 204 : 404);
-    });
+        if (deletedDoc) {
+            res.sendStatus(204); // Successful deletion, no content
+        } else {
+            res.sendStatus(404); // Document not found
+        }
+    } catch (err) {
+        console.error(`Error in DELETE /:resource/${req.params.id} :`, err);
+        if (err.name === 'CastError') {
+            return res.status(400).json({ message: 'Invalid ID format', error: err });
+        }
+        res.status(500).json({ message: err.message, error: err });
+    }
 });
 
 function createModel(resourceName) {

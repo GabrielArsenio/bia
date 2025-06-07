@@ -1,5 +1,5 @@
-import Vue from 'vue';
+import mitt from 'mitt';
 
-const EventBus = new Vue()
+const emitter = mitt();
 
-export default EventBus;
+export default emitter;

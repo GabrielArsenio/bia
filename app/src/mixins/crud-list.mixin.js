@@ -11,7 +11,7 @@ export default {
   methods: {
     async loadItems() {
       if (!this.service) {
-        throw new Error('Please, init the service property on created method. Exemple: `this.service = new Service(this.$resource("api/usuarios{/id}"));`')
+        throw new Error('Please, init the service property on created method. Example: `this.service = new Service(\'api/usuarios\');`')
       }
       this.items = await this.service.findAll()
     },

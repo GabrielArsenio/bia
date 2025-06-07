@@ -1,12 +1,12 @@
 <template>
     <div>
-        <v-toolbar flat color="white">
+        <v-toolbar variant="flat" color="white"> <!-- Replaced flat -->
             <v-toolbar-title>Eventos por ameaça</v-toolbar-title>
         </v-toolbar>
 
         <v-container>
-            <v-layout row wrap>
-                <v-flex xs2>
+            <v-row> <!-- Replaced v-layout -->
+                <v-col cols="2"> <!-- Replaced v-flex xs2 -->
                     <v-menu
                         ref="menu1"
                         :close-on-content-click="false"
@@ -19,14 +19,16 @@
                         max-width="290px"
                         min-width="290px"
                     >
-                        <v-text-field
-                            label="Data inicial"
-                            slot="activator"
-                            v-model="dateFormatted"
-                            persistent-hint
-                            prepend-icon="event"
-                            @blur="date = parseDate(dateFormatted)"
-                        ></v-text-field>
+                        <template v-slot:activator="{ props: menuActivatorProps1 }">
+                            <v-text-field
+                                label="Data inicial"
+                                v-bind="menuActivatorProps1"
+                                v-model="dateFormatted"
+                                persistent-hint
+                                prepend-icon="event"
+                                @blur="date = parseDate(dateFormatted)"
+                            ></v-text-field>
+                        </template>
                         <v-date-picker
                             v-model="date"
                             no-title
@@ -34,9 +36,9 @@
                             locale="pt-br"
                         ></v-date-picker>
                     </v-menu>
-                </v-flex>
+                </v-col>
 
-                <v-flex xs2>
+                <v-col cols="2"> <!-- Replaced v-flex xs2 -->
                     <v-menu
                         ref="menu2"
                         :close-on-content-click="false"
@@ -49,14 +51,16 @@
                         max-width="290px"
                         min-width="290px"
                     >
-                        <v-text-field
-                            label="Data final"
-                            slot="activator"
-                            v-model="dateFormatted2"
-                            persistent-hint
-                            prepend-icon="event"
-                            @blur="date2 = parseDate(dateFormatted2)"
-                        ></v-text-field>
+                        <template v-slot:activator="{ props: menuActivatorProps2 }">
+                            <v-text-field
+                                label="Data final"
+                                v-bind="menuActivatorProps2"
+                                v-model="dateFormatted2"
+                                persistent-hint
+                                prepend-icon="event"
+                                @blur="date2 = parseDate(dateFormatted2)"
+                            ></v-text-field>
+                        </template>
                         <v-date-picker
                             v-model="date2"
                             no-title
@@ -64,11 +68,11 @@
                             locale="pt-br"
                         ></v-date-picker>
                     </v-menu>
-                </v-flex>
+                </v-col>
 
-                <v-flex xs8></v-flex>
+                <v-col cols="8"> <!-- Replaced v-flex xs8 --></v-col>
 
-                <v-flex xs7>
+                <v-col cols="7"> <!-- Replaced v-flex xs7 -->
                     <v-autocomplete 
                         label="Ameaça" 
                         :items="ameacas" 
@@ -76,19 +80,21 @@
                         item-text="descricao" 
                         item-value="_id" 
                     ></v-autocomplete>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row> <!-- Closed v-row -->
         </v-container>
 
-        <v-data-table hide-actions fix-header :headers="headers" :items="items">
-            <template slot="items" slot-scope="props">
-                <td>{{ formatDate(props.item.data)  }}</td>
-                <td>{{ props.item.acao.processo.descricao }}</td>
-                <td>
-                    <v-btn icon class="mx-0" @click="viewItem(props.item)">
-                        <v-icon color="blue">visibility</v-icon>
-                    </v-btn>
-                </td>
+        <v-data-table :hide-default-footer="true" :fixed-header="true" :headers="headers" :items="items"> <!-- hide-actions to hide-default-footer, fix-header to fixed-header -->
+            <template v-slot:item="{ item }"> <!-- Updated slot syntax -->
+                <tr> <!-- Added <tr> wrapper for direct <td> usage in item slot -->
+                    <td>{{ formatDate(item.raw.data) }}</td>
+                    <td>{{ item.raw.acao.processo.descricao }}</td>
+                    <td>
+                        <v-btn icon class="mx-0" @click="viewItem(item.raw)">
+                            <v-icon color="blue">mdi-eye</v-icon> <!-- MDI icon name -->
+                        </v-btn>
+                    </td>
+                </tr>
             </template>
         </v-data-table>
 
@@ -118,10 +124,10 @@
                 menu2: false,
                 dateFormatted2: null,
                 date2: null,
-                headers: [
-                    { text: 'Data', value: 'data' },
-                    { text: 'Processo', value: 'acao.processo.descricao' },
-                    { text: 'Visualizar', value: 'acao.ameaca.descricao', sortable: false }
+                headers: [ // text -> title, value -> key
+                    { title: 'Data', key: 'data' }, // Assuming 'data' is a direct property after formatting, or use a custom key if formatting is done in item slot
+                    { title: 'Processo', key: 'acao.processo.descricao' },
+                    { title: 'Visualizar', key: 'actions', sortable: false } // Changed value to 'actions' for clarity if it's not a data property
                 ],
                 items: [],
                 ameacas: [],
@@ -167,13 +173,13 @@
                     });
             },
             loadAmeacas() {
-                new Service(this.$resource('api/ameacas{/id}'))
+                new Service('api/ameacas')
                     .findAll()
                     .then(ameacas => this.ameacas = ameacas);
             }
         },
         created() {
-            this.service = new Service(this.$resource('api/eventos-por-data'));
+            this.service = new Service('api/eventos-por-data');
             this.loadItens();
             this.loadAmeacas();
         }

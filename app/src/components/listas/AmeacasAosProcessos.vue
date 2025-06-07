@@ -1,24 +1,24 @@
 <template>
     <v-container fluid>
-        <v-toolbar flat color="white">
+        <v-toolbar variant="flat" color="white"> <!-- Replaced flat -->
             <v-toolbar-title>Ameaças aos processos</v-toolbar-title>
         </v-toolbar>
 
-        <v-list two-line subheader v-for="(item, index) in items" :key="index">
+        <!-- The v-for on v-list is unusual. Consider if a single list with grouped items is better. -->
+        <!-- Assuming subheader and two-line implies a denser list, using density="compact". -->
+        <!-- two-line and subheader props removed from v-list as they are V2. -->
+        <v-list density="compact" v-for="(item, index) in items" :key="index">
 
             <v-divider></v-divider>
 
-            <v-subheader v-if="item.descricao" :key="item._id">
+            <v-list-subheader v-if="item.descricao" :key="item._id"> <!-- v-subheader to v-list-subheader -->
                 {{ item.descricao }}
-            </v-subheader>
+            </v-list-subheader>
 
-            <v-list-item v-for="(acao) in item.acoes" :key="acao._id">
-                <v-list-item-content>
-                    <v-list-item-title>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ acao.processo.descricao }} - {{
-                            acao.processo.nivel.descricao
-                    }} - {{ acao.processo.tolerancia }}</v-list-item-title>
-                    <!-- <v-list-item-sub-title>{{ acao.processo.nivel.descricao }} - {{ acao.processo.tolerancia }}</v-list-item-sub-title> -->
-                </v-list-item-content>
+            <v-list-item v-for="(acao) in item.acoes" :key="acao._id"
+                :title="`\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0${acao.processo.descricao} - ${acao.processo.nivel.descricao} - ${acao.processo.tolerancia}`">
+                <!-- Removed v-list-item-content and v-list-item-title, using title prop -->
+                <!-- \u00A0 is unicode for &nbsp; -->
             </v-list-item>
 
         </v-list>
@@ -37,7 +37,7 @@ export default {
         }
     },
     created() {
-        this.service = new Service(this.$resource('api/ameacas-aos-processos{/id}'));
+        this.service = new Service('api/ameacas-aos-processos');
 
         this.service
             .findAll()

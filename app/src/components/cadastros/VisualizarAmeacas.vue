@@ -9,13 +9,13 @@
                 </v-btn>
             </v-card-title>
 
-            <v-container grid-list-lg>
-                <v-layout row wrap>
-                    <v-flex xs12>
+            <v-container> <!-- Removed grid-list-lg -->
+                <v-row> <!-- Replaced v-layout -->
+                    <v-col cols="12"> <!-- Replaced v-flex xs12 -->
                         <v-data-table hide-default-footer fix-header :headers="headers" :items="acoes">
                         </v-data-table>
-                    </v-flex>
-                </v-layout>
+                    </v-col>
+                </v-row> <!-- Closed v-row -->
             </v-container>
 
             <v-card-actions>
@@ -66,7 +66,7 @@ export default {
     },
     methods: {
         loadAmeacas() {
-            this.service = new Service(this.$resource('api/acoes{/id}'));
+            this.service = new Service('api/acoes');
 
             this.service
                 .findAll()

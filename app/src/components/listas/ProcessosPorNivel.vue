@@ -37,7 +37,7 @@ export default {
         }
     },
     created() {
-        this.service = new Service(this.$resource('api/processos-por-nivel{/id}'));
+        this.service = new Service('api/processos-por-nivel');
 
         this.service
             .findAll()

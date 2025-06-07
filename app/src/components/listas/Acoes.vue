@@ -1,12 +1,12 @@
 <template>
     <v-container fluid>
 
-        <v-data-table hide-default-footer fix-header :headers="headers" :items="items" :search="search">
+        <v-data-table hide-default-footer :fixed-header="true" :headers="headers" :items="items" :search="search"> <!-- fix-header to fixed-header -->
             <template v-slot:top>
-                <v-toolbar flat>
+                <v-toolbar variant="flat"> <!-- flat to variant="flat" -->
                     <v-toolbar-title>Indicativos de ação</v-toolbar-title>
                     <v-divider class="mx-4" inset vertical></v-divider>
-                    <v-text-field v-model="search" append-icon="search" label="Pesquisar" single-line hide-details>
+                    <v-text-field v-model="search" append-icon="search" label="Pesquisar" single-line hide-details density="compact"> <!-- Added density -->
                     </v-text-field>
                     <v-spacer></v-spacer>
                     <CadastroAcao :document="itemEditing" @cancel="itemEditing = null" @save="onSave"></CadastroAcao>
@@ -14,11 +14,11 @@
             </template>
 
             <template v-slot:item.actions="{ item }">
-                <v-icon small class="mr-2" @click="edit(item)">
-                    edit
+                <v-icon size="small" class="mr-2" @click="edit(item.raw || item)">
+                    mdi-pencil
                 </v-icon>
-                <v-icon small @click="remove(item)">
-                    delete
+                <v-icon size="small" @click="remove(item.raw || item)">
+                    mdi-delete
                 </v-icon>
             </template>
 
@@ -49,16 +49,16 @@ export default {
     data() {
         return {
             documentEvent: null,
-            headers: [
-                { text: 'Processo', value: 'processo.descricao' },
-                { text: 'Ameaça', value: 'ameaca.descricao' },
-                { text: 'Procedimento', value: 'procedimento' },
-                { text: 'Ações', value: 'actions', sortable: false, align: 'right' }
+            headers: [ // text -> title, value -> key
+                { title: 'Processo', key: 'processo.descricao' },
+                { title: 'Ameaça', key: 'ameaca.descricao' },
+                { title: 'Procedimento', key: 'procedimento' },
+                { title: 'Ações', key: 'actions', sortable: false, align: 'right' }
             ],
         }
     },
     created() {
-        this.service = new Service(this.$resource('api/acoes{/id}'));
+        this.service = new Service('api/acoes');
     }
 }
 </script>

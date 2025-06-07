@@ -25,11 +25,9 @@ app.use('/api', consultas);
 app.use('/api', api);
 app.use('/auth', auth);
 
-mongoose.connect(MONGODB_URI);
-mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-mongoose.connection.once('open', function () {
-    console.log('Conectado ao mongoDB!');
-});
+mongoose.connect(MONGODB_URI)
+    .then(() => console.log('Conectado ao mongoDB!'))
+    .catch(err => console.error('Erro de conexão ao MongoDB:', err));
 
 // error handler
 app.use(function (err, req, res, next) {

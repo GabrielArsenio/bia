@@ -27,12 +27,12 @@ export default {
   methods: {
     async load() {
       if (!this.service) {
-        throw new Error('Please, init the service property on created method. Exemple: `this.service = new Service(this.$resource("api/usuarios{/id}"));`')
+        throw new Error('Please, init the service property on created method. Example: `this.service = new Service(\'api/usuarios\');`')
       }
     },
     async save() {
-      const res = await this.service.save(this.form)
-      this.$emit("save", res.body)
+      const responseData = await this.service.save(this.form)
+      this.$emit("save", responseData)
       this.isOpen = false
     },
     cancel() {

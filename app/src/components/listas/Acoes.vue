@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
 
-        <v-data-table hide-default-footer fix-header :headers="headers" :items="items" :search="search">
+        <v-data-table hide-default-footer fixed-header :headers="headers" :items="items" :search="search"> {/* fix-header -> fixed-header */}
             <template v-slot:top>
                 <v-toolbar flat>
                     <v-toolbar-title>Indicativos de ação</v-toolbar-title>
@@ -14,10 +14,10 @@
             </template>
 
             <template v-slot:item.actions="{ item }">
-                <v-icon small class="mr-2" @click="edit(item)">
+                <v-icon size="small" class="mr-2" @click="edit(item)"> {/* small -> size="small" */}
                     edit
                 </v-icon>
-                <v-icon small @click="remove(item)">
+                <v-icon size="small" @click="remove(item)"> {/* small -> size="small" */}
                     delete
                 </v-icon>
             </template>
@@ -58,7 +58,7 @@ export default {
         }
     },
     created() {
-        this.service = new Service(this.$resource('api/acoes{/id}'));
+        this.service = new Service('api/acoes');
     }
 }
 </script>

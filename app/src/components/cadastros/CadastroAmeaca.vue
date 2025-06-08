@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="isOpen" max-width="500px">
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" class="mb-2" v-bind="attrs" v-on="on">
+        <template v-slot:activator="{ props }"> {/* Updated activator slot */}
+            <v-btn color="primary" class="mb-2" v-bind="props">
                 Nova ameaça
             </v-btn>
         </template>
@@ -9,21 +9,21 @@
             <v-card-title class="grey lighten-4 py-4 title">
                 {{ form._id ? 'Editar' : 'Nova' }} ameaça
             </v-card-title>
-            <v-container grid-list-sm class="pa-4">
-                <v-layout row wrap>
-                    <v-flex xs3>
+            <v-container class="pa-4"> {/* Removed grid-list-sm */}
+                <v-row> {/* v-layout -> v-row */}
+                    <v-col cols="3"> {/* v-flex -> v-col */}
                         <v-text-field label="Código" v-model="form._id" disabled></v-text-field>
-                    </v-flex>
+                    </v-col>
 
-                    <v-flex xs12>
-                        <v-text-field label="Descrição" v-model="form.descricao" name="descricao"
-                            v-validate="'required'" :error="errors.has('descricao')"></v-text-field>
-                    </v-flex>
-                </v-layout>
+                    <v-col cols="12"> {/* v-flex -> v-col */}
+                        <v-text-field label="Descrição" v-model="form.descricao" name="descricao">
+                        </v-text-field> {/* Removed v-validate and :error */}
+                    </v-col>
+                </v-row>
             </v-container>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="cancel()">Cancelar</v-btn>
+                <v-btn @click="cancel()" variant="text">Cancelar</v-btn> {/* Added variant="text" */}
                 <v-btn color="primary" @click="save()">Salvar</v-btn>
             </v-card-actions>
         </v-card>
@@ -42,7 +42,7 @@ export default {
         }
     },
     created() {
-        this.service = new Service(this.$resource('api/ameacas{/id}'))
+        this.service = new Service('api/ameacas')
     }
 }
 </script>

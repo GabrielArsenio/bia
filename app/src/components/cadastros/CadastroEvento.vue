@@ -196,9 +196,9 @@
                 this.tempDocument.data = this.date
                 this.tempDocument.hora = this.time
 
-                new Service(this.$resource('api/eventos{/id}'))
+                new Service('api/eventos')
                     .save(this.tempDocument)
-                    .then(res => this.$emit('save', res.body || this.tempDocument))
+                    .then(savedDocument => this.$emit('save', savedDocument || this.tempDocument))
             }
         }
     }

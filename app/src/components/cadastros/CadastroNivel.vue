@@ -41,7 +41,7 @@ export default {
         }
     },
     created() {
-        this.service = new Service(this.$resource('api/niveis{/id}'))
+        this.service = new Service('api/niveis')
     }
 }
 </script>

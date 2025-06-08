@@ -37,7 +37,7 @@ export default {
         }
     },
     created() {
-        this.service = new Service(this.$resource('api/ameacas-aos-processos{/id}'));
+        this.service = new Service('api/ameacas-aos-processos');
 
         this.service
             .findAll()

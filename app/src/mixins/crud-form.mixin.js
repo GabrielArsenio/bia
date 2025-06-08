@@ -31,8 +31,8 @@ export default {
       }
     },
     async save() {
-      const res = await this.service.save(this.form)
-      this.$emit("save", res.body)
+      const savedData = await this.service.save(this.form)
+      this.$emit("save", savedData)
       this.isOpen = false
     },
     cancel() {

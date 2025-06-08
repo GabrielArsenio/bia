@@ -55,8 +55,8 @@ export default {
         }
     },
     created() {
-        this.service = new Service(this.$resource('api/processos{/id}'))
-        this.serviceNiveis = new Service(this.$resource('api/niveis{/id}'))
+        this.service = new Service('api/processos')
+        this.serviceNiveis = new Service('api/niveis')
     },
     async mounted() {
         this.niveis = await this.serviceNiveis.findAll()

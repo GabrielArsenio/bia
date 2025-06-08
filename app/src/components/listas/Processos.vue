@@ -54,7 +54,7 @@ export default {
         }
     },
     created() {
-        this.service = new Service(this.$resource('api/processos{/id}'));
+        this.service = new Service('api/processos');
     }
 }
 </script>

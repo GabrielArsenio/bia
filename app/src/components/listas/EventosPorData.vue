@@ -149,7 +149,7 @@
             }
         },
         created() {
-            this.service = new Service(this.$resource('api/eventos-por-data'));
+            this.service = new Service('api/eventos-por-data');
             this.loadItens();
         }
     }

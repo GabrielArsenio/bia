@@ -140,8 +140,8 @@
       </v-btn>
 
       <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-on="on" v-bind="attrs">
+        <template v-slot:activator="{ props }">
+          <v-btn icon v-bind="props">
             <v-avatar size="32px" tile>
               <img src="../../avatar.png" alt="Usuário">
             </v-avatar>

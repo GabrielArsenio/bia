@@ -1,10 +1,14 @@
+import axios from 'axios';
+
 export class AuthService {
 
-    constructor(resource) {
-        this._resource = resource;
+    constructor() {
+        // The 'resource' parameter is no longer needed with direct axios usage.
     }
 
     login(document) {
-        return this._resource.post('/auth', document)
+        // Assuming '/auth' is the correct endpoint.
+        // It will use axios.defaults.baseURL if not an absolute URL.
+        return axios.post('/auth', document);
     }
 }

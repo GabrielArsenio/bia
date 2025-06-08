@@ -1,42 +1,72 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import VueRouter from 'vue-router';
-import VueResource from 'vue-resource';
-import Vuetify from 'vuetify';
-import VeeValidate, { Validator } from 'vee-validate';
-import msg from './pt_BR';
+import axios from 'axios'; // Added axios
+import { createVuetify } from 'vuetify'; // Updated Vuetify
+// import VeeValidate, { Validator } from 'vee-validate'; // Commenting out VeeValidate for now
+// import msg from './pt_BR'; // Commenting out VeeValidate for now
 import App from './src/App.vue';
-import { routes } from './routes';
+import router from './routes'; // Import the configured router instance
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
-Vue.use(VueRouter);
-Vue.use(VueResource);
-Vue.use(Vuetify);
+// Vue.use(VueRouter); // Replaced by app.use(router)
+// Vue.use(VueResource); // Replaced by axios
+// Vue.use(Vuetify); // Replaced by app.use(vuetify)
 
-Validator.localize(msg);
-Vue.use(VeeValidate, {
-    locale: 'pt_BR'
-});
+// Validator.localize(msg); // Commenting out VeeValidate for now
+// Vue.use(VeeValidate, { // Commenting out VeeValidate for now
+//    locale: 'pt_BR' // Commenting out VeeValidate for now
+// });
 
-const router = new VueRouter({ routes });
+// const router = new VueRouter({ routes }); // Router instance is now imported
 
-Vue.http.interceptors.push((request, next) => {
-    if (request.url.startsWith('api')) {
-        request.headers.map['X-Access-Token'] = [localStorage.getItem('token')];
-    }
+// Axios global configuration
+// Ensure this base URL is correct for your API setup
+axios.defaults.baseURL = '/'; // Or e.g. 'http://localhost:3000/api' if your API is separate
 
-    next(response => {
-        if (response.status === 401) {
-            router.push({ name: 'login' })
-            return;
+// Axios interceptors
+axios.interceptors.request.use(
+    config => {
+        // Ensure the URL check is correct for your API routes
+        // Assuming API calls are prefixed with 'api/'
+        if (config.url && config.url.startsWith('api/')) {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers['X-Access-Token'] = token;
+            }
         }
-        localStorage.setItem('token', response.headers.map['x-access-token'][0]);
-    });
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
+
+axios.interceptors.response.use(
+    response => {
+        const tokenHeader = response.headers['x-access-token'];
+        if (tokenHeader) {
+            localStorage.setItem('token', tokenHeader);
+        }
+        return response;
+    },
+    error => {
+        if (error.response && error.response.status === 401) {
+            router.push({ name: 'login' }); // router is the imported instance
+        }
+        return Promise.reject(error);
+    }
+);
+
+// Old Vue.http.interceptors are removed
+
+const app = createApp(App);
+const vuetify = createVuetify({
+    // Basic Vuetify 3 configuration.
+    // May need to import components and directives if not using a resolver.
 });
 
-new Vue({
-    el: '#app',
-    router,
-    vuetify: new Vuetify(),
-    render: h => h(App)
-});
+app.use(router); // router instance from ./routes.js
+app.use(vuetify);
+
+app.mount('#app');

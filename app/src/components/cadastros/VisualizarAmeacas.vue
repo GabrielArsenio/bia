@@ -66,7 +66,7 @@ export default {
     },
     methods: {
         loadAmeacas() {
-            this.service = new Service(this.$resource('api/acoes{/id}'));
+            this.service = new Service('api/acoes');
 
             this.service
                 .findAll()

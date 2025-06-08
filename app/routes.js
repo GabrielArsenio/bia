@@ -1,3 +1,4 @@
+import { createRouter, createWebHistory } from 'vue-router';
 import Home from './src/components/Home.vue';
 import Login from './src/components/Login.vue';
 import Usuarios from './src/components/listas/Usuarios.vue';
@@ -13,7 +14,7 @@ import EventosPorAmeaca from './src/components/listas/EventosPorAmeaca.vue';
 import EventosPorProcesso from './src/components/listas/EventosPorProcesso.vue';
 import MapaRiscos from './src/components/listas/MapaRiscos.vue';
 
-export const routes = [
+const routes = [ // Changed from export const
     {
         path: '/login',
         name: 'login',
@@ -72,3 +73,10 @@ export const routes = [
         ]
     }
 ];
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes
+});
+
+export default router; // Export the router instance

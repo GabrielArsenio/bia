@@ -167,13 +167,13 @@
                     });
             },
             loadProcessos() {
-                new Service(this.$resource('api/processos{/id}'))
+                new Service('api/processos')
                     .findAll()
                     .then(processos => this.processos = processos);
             }
         },
         created() {
-            this.service = new Service(this.$resource('api/eventos-por-data'));
+            this.service = new Service('api/eventos-por-data');
             this.loadItens();
             this.loadProcessos();
         }

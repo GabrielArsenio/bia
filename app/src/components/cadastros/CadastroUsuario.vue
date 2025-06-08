@@ -61,7 +61,7 @@ export default {
     };
   },
   created() {
-    this.service = new Service(this.$resource("api/usuarios{/id}"))
+    this.service = new Service("api/usuarios")
   }
 };
 </script>
